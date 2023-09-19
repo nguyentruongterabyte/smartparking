@@ -1,0 +1,28 @@
+.content-image-behind-header {
+  min-height: 70vh;
+  max-height: 80vh;
+  width: 100%;
+  opacity: 1;
+  color: rgb(52, 71, 103);
+  box-shadow: none;
+  display: grid;
+  background: linear-gradient(195deg, rgba(66, 66, 74, 0.6), rgba(25, 25, 25, 0.6)) center center / cover transparent;
+  background-position: center center;
+  place-items: center;
+
+  // Slogan
+  .slogan h1
+  {
+    font-size: 3.5rem;
+    color: var(--white);
+    text-align: center;
+  }
+
+  .sub-slogan p{
+    font-size: 1.25rem;
+    color: var(--white);
+    opacity: 0.8;
+  }
+
+}
+

@@ -1,29 +1,42 @@
+import classNames from 'classnames/bind';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouzz } from '@fortawesome/free-brands-svg-icons';
+
+import images from '~/assets/images';
+import config from '~/config';
+import styles from './Header.module.scss';
+
+const cx = classNames.bind(styles);
 
 function Header() {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div className={cx('wrapper')}>
+      <Navbar expand="lg" data-bs-theme="dark" className={cx('bg-body-tertiary', 'header-nav')}>
+        <Container className={cx('container')}>
+          <Navbar.Brand className={cx('brand')}>
+            <Link to={config.routes.home} className={cx('logo-link')}>
+              <img alt="P" src={images.logo} />
+            </Link>
+            <span>Convenient Parking</span>
+          </Navbar.Brand>
+          <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
+            <Nav className={cx('nav-links')}>
+              <Link to={config.routes.home} className={cx('nav-link', 'nav-link-item')}>
+                <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
+                Trang chủ
+              </Link>
+              <Link to={config.routes.login} className={cx('nav-link')}>
+                <button className={cx('btn', 'btn-primary')}>Đăng nhập</button>
+              </Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </div>
   );
 }
 
