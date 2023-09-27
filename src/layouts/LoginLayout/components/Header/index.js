@@ -8,15 +8,15 @@ import { faHouzz } from '@fortawesome/free-brands-svg-icons';
 
 import images from '~/assets/images';
 import config from '~/config';
-import styles from './Header.module.scss';
+import styles from '~/layouts/LoginLayout/LoginLayout.module.scss';
 
 const cx = classNames.bind(styles);
 
 function Header() {
   return (
-    <div className={cx('wrapper')}>
-      <Navbar expand="lg" data-bs-theme="dark" className={cx('bg-body-tertiary', 'header-nav')}>
-        <Container className={cx('container')}>
+    <div className={cx('header-wrapper')}>
+      <Navbar expand="lg" className={cx('bg-body-tertiary', 'header-nav')}>
+        <Container className={cx('header-container')}>
           <Navbar.Brand className={cx('brand')}>
             <Link to={config.routes.home} className={cx('logo-link')}>
               <img alt="P" src={images.logo} />
@@ -29,9 +29,9 @@ function Header() {
                 <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
                 Trang chủ
               </Link>
-              <Link to={config.routes.login} className={cx('nav-link')}>
+              <Nav.Link href={config.routes.login} className={cx('nav-link')}>
                 <button className={cx('btn', 'btn-primary')}>Đăng nhập</button>
-              </Link>
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

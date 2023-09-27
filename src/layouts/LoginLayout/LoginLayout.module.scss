@@ -1,11 +1,14 @@
-.wrapper {
+// Header 
+.header-wrapper {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 10;
+
   .header-nav {
     height: var(--default-layout-header-height);
+    background-color: #fff;
   }
 
   .navbar-collapse {
@@ -19,6 +22,7 @@
 .brand {
   display: flex;
   align-items: center;
+
   .logo-link {
     height: var(--default-layout-header-height);
     width: var(--default-layout-header-height);
@@ -34,7 +38,7 @@
   font-weight: bold;
   color: var(--white) !important;
   opacity: .8;
-  
+
   &:hover {
     opacity: 1;
   }
