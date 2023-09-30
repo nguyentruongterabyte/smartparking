@@ -29,9 +29,6 @@ function Header() {
                 <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
                 Trang chủ
               </Link>
-              <Nav.Link href={config.routes.login} className={cx('nav-link')}>
-                <button className={cx('btn', 'btn-primary')}>Đăng nhập</button>
-              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

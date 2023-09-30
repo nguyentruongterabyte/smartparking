@@ -9,6 +9,7 @@ import { faHouzz } from '@fortawesome/free-brands-svg-icons';
 import images from '~/assets/images';
 import config from '~/config';
 import styles from '~/layouts/DefaultLayout/DefaultLayout.module.scss';
+import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
@@ -29,9 +30,9 @@ function Header() {
                 <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
                 Trang chủ
               </Link>
-              <Nav.Link href={config.routes.login} className={cx('nav-link')}>
-                <button className={cx('btn', 'btn-primary')}>Đăng nhập</button>
-              </Nav.Link>
+              <Button primary href={config.routes.login}>
+                Đăng nhập
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>

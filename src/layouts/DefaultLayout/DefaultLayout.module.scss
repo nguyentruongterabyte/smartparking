@@ -27,6 +27,7 @@
   align-items: center;
 
   .logo-link {
+    overflow: hidden;
     height: var(--default-layout-header-height);
     width: var(--default-layout-header-height);
   }

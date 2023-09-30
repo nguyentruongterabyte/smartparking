@@ -1,3 +1,7 @@
+.container {
+  margin-top: var(--default-layout-header-height);
+}
+
 // Header 
 .header-wrapper {
   position: fixed;
@@ -36,7 +40,7 @@
 
 .nav-link-item {
   font-weight: bold;
-  color: var(--white) !important;
+  color: var(--black) !important;
   opacity: .8;
 
   &:hover {

@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
+
 function Login() {
-  return <h2>Login Page</h2>;
+  return <></>;
 }
 
 export default Login;
