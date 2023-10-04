@@ -5,13 +5,17 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouzz } from '@fortawesome/free-brands-svg-icons';
+import { useContext } from 'react';
 
 import images from '~/assets/images';
 import config from '~/config';
 import styles from '~/layouts/DefaultLayout/DefaultLayout.module.scss';
 import Button from '~/components/Button';
+import AuthContext from '~/context/AuthProvider';
 
 const cx = classNames.bind(styles);
+
+const handleLogout = () => {};
 
 function Header() {
   return (
@@ -30,9 +34,15 @@ function Header() {
                 <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
                 Trang chủ
               </Link>
-              <Button primary href={config.routes.login}>
-                Đăng nhập
-              </Button>
+              {false ? (
+                <Button href={config.routes.logout} onClick={handleLogout}>
+                  Đăng xuất
+                </Button>
+              ) : (
+                <Button primary href={config.routes.login}>
+                  Đăng nhập
+                </Button>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

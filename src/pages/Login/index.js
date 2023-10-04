@@ -1,11 +1,17 @@
-import { useState, useContext, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import classNames from 'classnames/bind';
+
+import styles from './Login.module.scss';
 import httpRequest from '~/utils/httpRequest';
-import AuthContext from '~/context/AuthProvider';
+import Button from '~/components/Button';
+import config from '~/config';
+import hooks from '~/hooks';
 
 const LOGIN_URL = '/login';
+const cx = classNames.bind(styles);
 
-function LoginPage() {
-  const { setAuth } = useContext(AuthContext);
+function Login() {
+  const { auth, setAuth } = hooks.useAuth();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -15,7 +21,7 @@ function LoginPage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    userRef.current.focus();
+    userRef.current?.focus();
   }, []);
 
   useEffect(() => {
@@ -32,27 +38,27 @@ function LoginPage() {
         },
         withCredentials: true,
       });
-      console.log(JSON.stringify(response?.data));
-      //console.log(JSON.stringify(response));
+      // set role
+      // console.log(JSON.stringify(response));
       // const accessToken = response?.data?.accessToken;
       // const roles = response?.data?.roles;
       setAuth({ user, pwd });
+      localStorage.setItem('auth', JSON.stringify({ user, pwd }));
       setUser('');
       setPwd('');
       setSuccess(true);
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
-      } else if (err.response?.status === 400) {
-        setErrMsg('Missing Username or Password');
-      } else if (err.response?.status === 401) {
-        setErrMsg('Unauthorized');
+      } else if (err.response?.status === 401 || err.response?.status === 400) {
+        setErrMsg(err?.response.data.message);
       } else {
         setErrMsg('Login Failed');
       }
-      errRef.current.focus();
+      errRef.current?.focus();
     }
   };
+
   return (
     <>
       {success ? (
@@ -60,16 +66,16 @@ function LoginPage() {
           <h1>You are logged in!</h1>
           <br />
           <p>
-            <a href="#">Go to Home</a>
+            <a href={config.routes.home}>Go to Home</a>
           </p>
         </section>
       ) : (
-        <section>
+        <section className={cx('wrapper')}>
           <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
             {errMsg}
           </p>
           <h1>Sign In</h1>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className={cx('form')}>
             <label htmlFor="username">Username:</label>
             <input
               type="text"
@@ -83,14 +89,14 @@ function LoginPage() {
 
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" onChange={(e) => setPwd(e.target.value)} value={pwd} required />
-            <button>Sign In</button>
+            <Button className={cx('login-btn')}>Sign In</Button>
           </form>
           <p>
             Need an Account?
             <br />
             <span className="line">
               {/*put router link here*/}
-              <a href="#">Sign Up</a>
+              <a href="/register">Sign Up</a>
             </span>
           </p>
         </section>
@@ -99,4 +105,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;

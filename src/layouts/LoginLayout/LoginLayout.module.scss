@@ -1,5 +1,16 @@
 .container {
   margin-top: var(--default-layout-header-height);
+
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--default-layout-header-height));
+  padding: 1rem 0.5rem;
+  background-color: #ccc;
 }
 
 // Header 

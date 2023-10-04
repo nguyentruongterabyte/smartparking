@@ -18,12 +18,14 @@ function Button({
   className,
   leftIcon,
   rightIcon,
+  onClick,
   ...passProps
 }) {
   let Comp = 'button';
 
   const props = {
     ...passProps,
+    onClick,
   };
 
   // Remove event listeners when button is disabled

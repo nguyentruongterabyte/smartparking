@@ -29,6 +29,15 @@ button,
   border: none;
 }
 
+input[type="text"],
+input[type="password"],
+button,
+textarea {
+  font-size: 22px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+}
+
 a[href] {
   color: var(--text-color);
   text-decoration: none;
@@ -49,3 +58,33 @@ html *::-webkit-scrollbar-track {
   border-radius: 0;
   background-color: rgba(0, 0, 0, 0);
 }
+
+// hide
+.hide {
+  display: none;
+}
+
+// form
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
