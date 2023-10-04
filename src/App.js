@@ -31,19 +31,19 @@ function App() {
             );
           })}
 
-          <Route element={<RequireAuth />}>
-            {privateRoutes.map((route, index) => {
-              let Layout = DefaultLayout;
-              if (route.layout) {
-                Layout = route.layout;
-              } else if (route.layout === null) {
-                Layout = Fragment;
-              }
+          {/*We want to protect these routes*/}
+          {privateRoutes.map((route, index) => {
+            let Layout = DefaultLayout;
+            if (route.layout) {
+              Layout = route.layout;
+            } else if (route.layout === null) {
+              Layout = Fragment;
+            }
 
-              const Page = route.component;
-              return (
+            const Page = route.component;
+            return (
+              <Route key={index} element={<RequireAuth allowedRoles={route.allowedRoles} />}>
                 <Route
-                  key={index}
                   path={route.path}
                   element={
                     <Layout>
@@ -51,9 +51,9 @@ function App() {
                     </Layout>
                   }
                 ></Route>
-              );
-            })}
-          </Route>
+              </Route>
+            );
+          })}
         </Routes>
       </div>
     </Router>

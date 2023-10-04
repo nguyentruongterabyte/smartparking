@@ -5,19 +5,28 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouzz } from '@fortawesome/free-brands-svg-icons';
-import { useContext } from 'react';
 
 import images from '~/assets/images';
 import config from '~/config';
 import styles from '~/layouts/DefaultLayout/DefaultLayout.module.scss';
 import Button from '~/components/Button';
-import AuthContext from '~/context/AuthProvider';
+import hooks from '~/hooks';
+import services from '~/services';
+import httpRequest from '~/utils/httpRequest';
 
 const cx = classNames.bind(styles);
 
-const handleLogout = () => {};
-
 function Header() {
+  const { auth, setAuth } = hooks.useAuth();
+  const handleLogout = async () => {
+    try {
+      const response = await httpRequest.get(config.constants.LOGOUT_URL);
+      console.log(response?.data?.message);
+      setAuth({});
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className={cx('header-wrapper')}>
       <Navbar expand="lg" data-bs-theme="dark" className={cx('bg-body-tertiary', 'header-nav')}>
@@ -34,12 +43,12 @@ function Header() {
                 <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
                 Trang chủ
               </Link>
-              {false ? (
-                <Button href={config.routes.logout} onClick={handleLogout}>
+              {auth.user ? (
+                <Button to={config.routes.logout} onClick={handleLogout}>
                   Đăng xuất
                 </Button>
               ) : (
-                <Button primary href={config.routes.login}>
+                <Button primary to={config.routes.login}>
                   Đăng nhập
                 </Button>
               )}
