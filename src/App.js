@@ -1,14 +1,17 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import { publicRoutes, privateRoutes } from '~/routes';
 import './App.css';
 import { DefaultLayout } from '~/layouts';
 import RequireAuth from '~/components/RequireAuth';
+import Missing from '~/pages/Missing';
 
 function App() {
   return (
     <Router>
       <div className="app">
+        {/*Public routes*/}
         <Routes>
           {publicRoutes.map((route, index) => {
             let Layout = DefaultLayout;
@@ -50,10 +53,13 @@ function App() {
                       <Page />
                     </Layout>
                   }
-                ></Route>
+                />
               </Route>
             );
           })}
+
+          {/* Catch all */}
+          <Route path="*" element={<Missing />} />
         </Routes>
       </div>
     </Router>

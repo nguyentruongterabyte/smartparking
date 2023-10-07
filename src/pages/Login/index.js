@@ -1,15 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './Login.module.scss';
-import httpRequest from '~/utils/httpRequest';
+import axios from '~/utils/axios';
 import Button from '~/components/Button';
 import config from '~/config';
 import hooks from '~/hooks';
-import services from '~/services';
 
-const LOGIN_URL = '/login';
 const cx = classNames.bind(styles);
 
 function Login() {
@@ -17,7 +15,7 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from.pathname || config.routes.home;
+  const from = location.state?.from?.pathname || config.routes.home;
 
   const userRef = useRef();
   const errRef = useRef();
@@ -25,7 +23,6 @@ function Login() {
   const [user, setUser] = useState('');
   const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
-  // const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     userRef.current?.focus();
@@ -38,37 +35,21 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const response = services.login(user, pwd);
-    // if (response.success) {
-    //   // const roles = response.data.roles;
-    //   const roles = [config.constants.ROLES.admin, config.constants.ROLES.merchant];
-    //   setAuth(user, pwd, roles);
-    //   setUser('');
-    //   setPwd('');
-    //   // setSuccess(true);
-    // } else {
-    //   setErrMsg(response.errMsg);
-    //   console.log([response]);
-    //   errRef.current?.focus();
-    // }
-
     try {
-      const response = await httpRequest.post(LOGIN_URL, JSON.stringify({ username: user, password: pwd }), {
+      const response = await axios.post(config.constants.LOGIN_URL, JSON.stringify({ username: user, password: pwd }), {
         headers: {
           'Content-Type': 'application/json',
         },
         withCredentials: true,
       });
-      // set role
-      // console.log(JSON.stringify(response));
-      // const accessToken = response?.data?.accessToken;
-      // const roles = response?.data?.roles;
-      const roles = [config.constants.ROLES.admin, config.constants.ROLES.merchant];
 
-      setAuth({ user, pwd, roles });
+      const role = response?.data?.role;
+      const accessToken = response?.data?.accessToken;
+      console.log(accessToken);
+
+      setAuth({ user, pwd, role, accessToken });
       setUser('');
       setPwd('');
-      // setSuccess(true);
       navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {

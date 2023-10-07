@@ -4,28 +4,57 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouzz } from '@fortawesome/free-brands-svg-icons';
+import { faCircleQuestion, faEarthAsia, faKeyboard, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 import images from '~/assets/images';
 import config from '~/config';
 import styles from '~/layouts/DefaultLayout/DefaultLayout.module.scss';
 import Button from '~/components/Button';
 import hooks from '~/hooks';
-import services from '~/services';
-import httpRequest from '~/utils/httpRequest';
+import Menu from '~/components/Popper/Menu';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
+const MENU_ITEMS = [
+  {
+    icon: <FontAwesomeIcon icon={faEarthAsia} />,
+    title: 'English',
+    children: {
+      title: 'Languages',
+      data: [
+        {
+          title: 'English',
+          type: 'language',
+          code: 'en',
+        },
+        {
+          title: 'Tiếng Việt',
+          type: 'language',
+          code: 'vi',
+        },
+      ],
+    },
+  },
+  {
+    icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+    title: 'Feedback and help',
+    to: '/feedback',
+  },
+  {
+    icon: <FontAwesomeIcon icon={faKeyboard} />,
+    title: 'Keyboard shortcut',
+  },
+  {
+    icon: <FontAwesomeIcon icon={faRightFromBracket} />,
+    title: 'Log out',
+  },
+];
+
 function Header() {
   const { auth, setAuth } = hooks.useAuth();
-  const handleLogout = async () => {
-    try {
-      const response = await httpRequest.get(config.constants.LOGOUT_URL);
-      console.log(response?.data?.message);
-      setAuth({});
-    } catch (err) {
-      console.log(err);
-    }
+  const handleLogout = () => {
+    setAuth({});
   };
   return (
     <div className={cx('header-wrapper')}>
@@ -39,14 +68,15 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             <Nav className={cx('nav-links')}>
-              <Link to={config.routes.home} className={cx('nav-link', 'nav-link-item')}>
-                <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
-                Trang chủ
-              </Link>
               {auth.user ? (
-                <Button to={config.routes.logout} onClick={handleLogout}>
-                  Đăng xuất
-                </Button>
+                <Menu items={MENU_ITEMS}>
+                  <Image
+                    src="https://picsum.photos/200/300"
+                    className={cx('user-avatar')}
+                    alt="user-avatar"
+                    fallback={images.noImage}
+                  />
+                </Menu>
               ) : (
                 <Button primary to={config.routes.login}>
                   Đăng nhập

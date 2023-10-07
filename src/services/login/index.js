@@ -1,9 +1,9 @@
-import httpRequest from '~/utils/httpRequest';
+import axios from '~/utils/axios';
 import config from '~/config';
 
 export const login = async (username, password) => {
   try {
-    const response = await httpRequest.post(config.constants.LOGIN_URL, JSON.stringify({ username, password }), {
+    const response = await axios.post(config.constants.LOGIN_URL, JSON.stringify({ username, password }), {
       headers: {
         'Content-Type': 'application/json',
       },

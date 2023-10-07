@@ -7,6 +7,10 @@
   --white: #fff;
   --text-color: #161823;
   --blur-text-color: #7b809a;
+
+  //font-family
+  --font-family: 'TikTokFont', sans-serif;
+
   // Default layout
   --default-layout-header-height: 60px;
 }
@@ -19,7 +23,27 @@
 }
 
 body {
+  font-family: var(--font-family);
   color: var(--text-color);
+  .tippy-box {
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 2.1rem;
+    background-color: rgba(84, 84, 84, 0.92);
+  }
+
+  .tippy-arrow {
+    color: rgba(84, 84, 84, 0.92);
+  }
+
+  .tippy-content {
+    padding: 8px 9px;
+  }
+
+  .tippy-box[data-placement^=bottom]>.tippy-arrow:before {
+    top: -8px;
+  }
 }
 
 input,
@@ -88,3 +112,21 @@ html *::-webkit-scrollbar-track {
   margin-left: 0.25rem;
 }
 
+// Fonts embedded
+@font-face {
+  font-family: TikTokFont;
+  src: url('/assets/fonts/TikTokFont-Regular.woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: TikTokFont;
+  src: url('/assets/fonts/TikTokFont-Semibold.woff2');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: TikTokFont;
+  src: url('/assets/fonts/TikTokFont-Bold.woff2');
+  font-weight: 700;
+}

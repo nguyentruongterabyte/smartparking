@@ -1,9 +1,9 @@
 import config from '~/config';
-import httpRequest from '~/utils/httpRequest';
+import axios from '~/utils/axios';
 
 export const logout = async () => {
   try {
-    const response = await httpRequest.get(config.constants.LOGOUT_URL);
+    const response = await axios.get(config.constants.LOGOUT_URL);
     console.log(response?.data?.message);
     return response?.data;
   } catch (err) {
