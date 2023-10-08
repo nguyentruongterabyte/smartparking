@@ -15,7 +15,6 @@ function Users() {
         const response = await axios.get(LOGIN_USERS, {
           signal: controller.signal,
         });
-        console.log(response.data);
         isMounted && setUsers(response.data);
       } catch (err) {
         console.error(err);

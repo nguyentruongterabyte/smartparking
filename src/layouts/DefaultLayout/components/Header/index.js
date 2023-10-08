@@ -4,7 +4,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion, faEarthAsia, faKeyboard, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import Tippy from '@tippyjs/react';
+import {
+  faCircleQuestion,
+  faEarthAsia,
+  faKeyboard,
+  faRightFromBracket,
+  faSquareParking,
+} from '@fortawesome/free-solid-svg-icons';
 
 import images from '~/assets/images';
 import config from '~/config';
@@ -27,6 +34,7 @@ const MENU_ITEMS = [
           title: 'English',
           type: 'language',
           code: 'en',
+          separate: true,
         },
         {
           title: 'Tiếng Việt',
@@ -48,13 +56,27 @@ const MENU_ITEMS = [
   {
     icon: <FontAwesomeIcon icon={faRightFromBracket} />,
     title: 'Log out',
+    type: 'logout',
+    separate: true,
   },
 ];
 
 function Header() {
   const { auth, setAuth } = hooks.useAuth();
-  const handleLogout = () => {
-    setAuth({});
+
+  const defaultFn = () => {};
+
+  // handle menu change
+  const handleMenuChange = (menuItem) => {
+    switch (menuItem.type) {
+      // handle logout
+      case 'logout': {
+        setAuth({});
+        break;
+      }
+      default:
+        defaultFn();
+    }
   };
   return (
     <div className={cx('header-wrapper')}>
@@ -62,20 +84,22 @@ function Header() {
         <Container className={cx('header-container')}>
           <Navbar.Brand className={cx('brand')}>
             <Link to={config.routes.home} className={cx('logo-link')}>
-              <img alt="P" src={images.logo} />
+              <FontAwesomeIcon className={cx('logo')} icon={faSquareParking} />
             </Link>
             <span>Convenient Parking</span>
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             <Nav className={cx('nav-links')}>
               {auth.user ? (
-                <Menu items={MENU_ITEMS}>
-                  <Image
-                    src="https://picsum.photos/200/300"
-                    className={cx('user-avatar')}
-                    alt="user-avatar"
-                    fallback={images.noImage}
-                  />
+                <Menu items={MENU_ITEMS} hideOnClick={true} onChange={handleMenuChange}>
+                  <Tippy delay={[0, 50]} content="Account" placement="bottom">
+                    <Image
+                      src="https://picsum.photos/200/300"
+                      className={cx('user-avatar')}
+                      alt="user-avatar"
+                      fallback={images.noImage}
+                    />
+                  </Tippy>
                 </Menu>
               ) : (
                 <Button primary to={config.routes.login}>

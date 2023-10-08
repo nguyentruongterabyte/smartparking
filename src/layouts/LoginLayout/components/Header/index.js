@@ -4,9 +4,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouzz } from '@fortawesome/free-brands-svg-icons';
+import { faHouse, faSquareParking } from '@fortawesome/free-solid-svg-icons';
 
-import images from '~/assets/images';
 import config from '~/config';
 import styles from '~/layouts/LoginLayout/LoginLayout.module.scss';
 
@@ -19,14 +18,14 @@ function Header() {
         <Container className={cx('header-container')}>
           <Navbar.Brand className={cx('brand')}>
             <Link to={config.routes.home} className={cx('logo-link')}>
-              <img alt="P" src={images.logo} />
+              <FontAwesomeIcon className={cx('logo')} icon={faSquareParking} />
             </Link>
             <span>Convenient Parking</span>
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             <Nav className={cx('nav-links')}>
               <Link to={config.routes.home} className={cx('nav-link', 'nav-link-item')}>
-                <FontAwesomeIcon icon={faHouzz} className={cx('nav-icon')} />
+                <FontAwesomeIcon icon={faHouse} className={cx('nav-icon')} />
                 Trang chủ
               </Link>
             </Nav>

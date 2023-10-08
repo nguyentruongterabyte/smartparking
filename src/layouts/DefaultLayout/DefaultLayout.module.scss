@@ -37,8 +37,20 @@
 
   .logo-link {
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: var(--default-layout-header-height);
     width: var(--default-layout-header-height);
+  }
+
+  .logo {
+    color: var(--white);
+    font-size: 4rem;
+  }
+
+  span {
+    font-size: 2rem;
   }
 }
 

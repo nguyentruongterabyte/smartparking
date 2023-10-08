@@ -22,9 +22,18 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
+  overflow-y: overlay;
   font-family: var(--font-family);
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-rendering: optimizeSpeed;
   color: var(--text-color);
+  // Custom tippy react
   .tippy-box {
     border-radius: 8px;
     font-weight: 600;
@@ -39,6 +48,7 @@ body {
 
   .tippy-content {
     padding: 8px 9px;
+    color: var(--white);
   }
 
   .tippy-box[data-placement^=bottom]>.tippy-arrow:before {
