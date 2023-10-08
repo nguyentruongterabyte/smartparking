@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 
-import { Link } from 'react-router-dom';
 import config from '~/config';
 import styles from './Missing.module.scss';
 import Button from '~/components/Button';

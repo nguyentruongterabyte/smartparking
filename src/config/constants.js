@@ -4,8 +4,8 @@ export const APP_NAME = 'ConvenientParking';
 export const END_USER_BASE_URL = '';
 export const APP_ID = 999888;
 
-export const LOGIN_URL = '/login';
-export const LOGOUT_URL = '/logout';
+// login api url
+export const LOGIN_URL = 'auth/login';
 // Roles
 export const ROLES = {
   admin: 52456,

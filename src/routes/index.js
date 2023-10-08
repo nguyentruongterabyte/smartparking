@@ -26,7 +26,7 @@ const privateRoutes = [
   {
     path: config.routes.admin,
     component: Admin,
-    allowedRoles: [ROLES.admin],
+    allowedRoles: [ROLES.admin, ROLES.merchant],
   },
 ];
 export { publicRoutes, privateRoutes };

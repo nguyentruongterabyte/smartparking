@@ -91,16 +91,19 @@ function Header() {
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             <Nav className={cx('nav-links')}>
               {auth.user ? (
-                <Menu items={MENU_ITEMS} hideOnClick={true} onChange={handleMenuChange}>
-                  <Tippy delay={[0, 50]} content="Account" placement="bottom">
-                    <Image
-                      src="https://picsum.photos/200/300"
-                      className={cx('user-avatar')}
-                      alt="user-avatar"
-                      fallback={images.noImage}
-                    />
-                  </Tippy>
-                </Menu>
+                <>
+                  <Button to={config.routes.admin}>Admin</Button>
+                  <Menu items={MENU_ITEMS} hideOnClick={true} onChange={handleMenuChange}>
+                    <Tippy delay={[0, 50]} content="Account" placement="bottom">
+                      <Image
+                        src="https://picsum.photos/200/300"
+                        className={cx('user-avatar')}
+                        alt="user-avatar"
+                        fallback={images.noImage}
+                      />
+                    </Tippy>
+                  </Menu>
+                </>
               ) : (
                 <Button primary to={config.routes.login}>
                   Đăng nhập

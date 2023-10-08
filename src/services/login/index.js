@@ -15,8 +15,6 @@ export const login = async (username, password) => {
       data: response?.data,
     };
   } catch (err) {
-    console.log(err);
-
     if (!err?.response) {
       return { errMsg: 'No Server Response' };
     } else if (err.response?.status === 401 || err.response?.status === 400) {

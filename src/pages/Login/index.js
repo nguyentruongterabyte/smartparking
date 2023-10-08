@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './Login.module.scss';
@@ -43,9 +43,8 @@ function Login() {
         withCredentials: true,
       });
 
-      const role = response?.data?.role;
-      const accessToken = response?.data?.accessToken;
-      console.log(accessToken);
+      const role = response?.data?.object?.role;
+      const accessToken = response?.data?.object?.accessToken;
 
       setAuth({ user, pwd, role, accessToken });
       setUser('');

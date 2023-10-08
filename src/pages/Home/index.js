@@ -1,32 +1,32 @@
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faMoneyBill1 } from '@fortawesome/free-regular-svg-icons';
+import { faClockFour, faShield, faTicketSimple } from '@fortawesome/free-solid-svg-icons';
+import { faSpaceAwesome } from '@fortawesome/free-brands-svg-icons';
 
 import styles from './Home.module.scss';
 import images from '~/assets/images';
-import { faSimplybuilt, faWatchmanMonitoring } from '@fortawesome/free-brands-svg-icons';
 
 const cx = classNames.bind(styles);
 
 const APP_ADVANTAGES = [
   {
     title: 'Nhanh chóng',
-    icon: faClock,
+    icon: faClockFour,
     description: 'Thanh toán nhanh bằng Zalopay không cần tiền mặt',
   },
   {
     title: 'Tiện lợi',
-    icon: faMoneyBill1,
+    icon: faSpaceAwesome,
     description: 'Không cần thẻ xe, chỉ cần chiếc điện thoại của bạn',
   },
   {
     title: 'Đơn giản',
-    icon: faSimplybuilt,
+    icon: faTicketSimple,
     description: 'Sử dụng QR code để checkin và checkout',
   },
   {
     title: 'An toàn',
-    icon: faWatchmanMonitoring,
+    icon: faShield,
     description: 'Không sợ bị mất vé giữ xe gây nhiều phiền toái',
   },
 ];
