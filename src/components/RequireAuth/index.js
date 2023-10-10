@@ -9,7 +9,7 @@ function RequireAuth({ allowedRoles }) {
   return allowedRoles?.includes(auth?.role) ? (
     // Check if the user's role is included in the allowedRoles
     <Outlet />
-  ) : auth?.user ? (
+  ) : auth?.accessToken ? ( // changed from user to accessToken to persist login after refresh
     // The 'replace' prop is used to replace the current URL in the browser with the new URL
     <Navigate to={config.routes.unauthorized} state={{ from: location }} replace />
   ) : (

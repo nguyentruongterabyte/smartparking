@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 
 import styles from './Login.module.scss';
@@ -11,11 +11,10 @@ import hooks from '~/hooks';
 const cx = classNames.bind(styles);
 
 function Login() {
-  const { setAuth } = hooks.useAuth();
+  const { setAuth, persist, setPersist } = hooks.useAuth();
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || config.routes.home;
+  const from = config.routes.home; // from = location.state?.from?.pathname || config.routes.home
 
   const userRef = useRef();
   const errRef = useRef();
@@ -45,8 +44,13 @@ function Login() {
 
       const role = response?.data?.object?.role;
       const accessToken = response?.data?.object?.accessToken;
-
-      setAuth({ user, pwd, role, accessToken });
+      const refreshToken = response?.data?.object?.refreshToken;
+      setAuth({ user, pwd, role, accessToken, refreshToken });
+      if (persist) {
+        localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+        localStorage.setItem('role', role);
+      }
+      // console.log(refreshToken);
       setUser('');
       setPwd('');
       navigate(from, { replace: true });
@@ -61,6 +65,20 @@ function Login() {
       errRef.current?.focus();
     }
   };
+
+  const togglePersist = () => {
+    setPersist((prev) => {
+      if (prev) {
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('role');
+      }
+      return !prev;
+    });
+  };
+
+  useEffect(() => {
+    localStorage.setItem('persist', persist);
+  }, [persist]);
 
   return (
     <section className={cx('wrapper')}>
@@ -83,8 +101,12 @@ function Login() {
         <label htmlFor="password">Password:</label>
         <input type="password" id="password" onChange={(e) => setPwd(e.target.value)} value={pwd} required />
         <Button className={cx('login-btn')}>Sign In</Button>
+        <div className={cx('persistCheck')}>
+          <input type="checkbox" id="persist" onChange={togglePersist} checked={persist} />
+          <label htmlFor="persist">Trust This Device</label>
+        </div>
       </form>
-      <p>
+      <p className={cx('need-account')}>
         Need an Account?
         <br />
         <span className="line">

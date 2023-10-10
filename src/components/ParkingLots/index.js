@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import config from '~/config';
 import hooks from '~/hooks';
 
 function ParkingLots() {
@@ -11,7 +12,7 @@ function ParkingLots() {
 
     const getParkingLots = async () => {
       try {
-        const response = await axiosPrivate.get('parkingLots', {
+        const response = await axiosPrivate.get(config.constants.PARKING_LOTS_URL, {
           signal: controller.signal,
         });
         isMounted && setParkingLots(response.data);
@@ -39,7 +40,6 @@ function ParkingLots() {
       ) : (
         <p>No ParkingLots to display</p>
       )}
-      {/* <button onClick={refresh()}>Refresh</button> */}
     </article>
   );
 }

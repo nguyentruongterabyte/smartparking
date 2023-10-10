@@ -6,33 +6,23 @@ import config from '~/config';
 function useRefreshToken() {
   const { auth, setAuth } = useAuth();
 
-  const { user, pwd } = auth;
-
+  const refreshToken = auth?.refreshToken || JSON.parse(localStorage.getItem('refreshToken'));
+  const role = auth?.role || JSON.parse(localStorage.getItem('role'));
+  // console.log(role);
   const refresh = async () => {
-    const response = await axios.post(config.constants.LOGIN_URL, JSON.stringify({ username: user, password: pwd }), {
+    const response = await axios.post(config.constants.REFRESH_URL, JSON.stringify({ refreshToken }), {
       headers: {
         'Content-Type': 'application/json',
       },
       withCredentials: true,
     });
-
     setAuth((prev) => {
       // console.log(JSON.stringify(prev));
-      // console.log(response?.data?.object?.accessToken);
-      return { ...prev, accessToken: response.data.object.accessToken };
+      // console.log(response.data.object);
+      return { ...prev, accessToken: response.data.object, role };
     });
-    return response.data.object.accessToken;
+    return response.data.object;
   };
-
-  // const refresh = async () => {
-  //   const response = await axios.get('/', {
-  //     withCredentials: true,
-  //   });
-  //   setAuth((prev) => {
-  //     return { ...prev, accessToken: response.data.object.accessToken };
-  //   });
-  //   return response.data.object.accessToken;
-  // };
 
   return refresh;
 }

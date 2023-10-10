@@ -15,7 +15,7 @@ import {
 
 import images from '~/assets/images';
 import config from '~/config';
-import styles from '~/layouts/DefaultLayout/DefaultLayout.module.scss';
+import styles from './Header.module.scss';
 import Button from '~/components/Button';
 import hooks from '~/hooks';
 import Menu from '~/components/Popper/Menu';
@@ -62,7 +62,8 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-  const { auth, setAuth } = hooks.useAuth();
+  const { auth } = hooks.useAuth();
+  const logout = hooks.useLogout();
 
   const defaultFn = () => {};
 
@@ -71,7 +72,7 @@ function Header() {
     switch (menuItem.type) {
       // handle logout
       case 'logout': {
-        setAuth({});
+        logout();
         break;
       }
       default:
@@ -90,17 +91,11 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             <Nav className={cx('nav-links')}>
-              {auth.user ? (
+              {auth.accessToken ? (
                 <>
-                  <Button to={config.routes.admin}>Admin</Button>
                   <Menu items={MENU_ITEMS} hideOnClick={true} onChange={handleMenuChange}>
                     <Tippy delay={[0, 50]} content="Account" placement="bottom">
-                      <Image
-                        src="https://picsum.photos/200/300"
-                        className={cx('user-avatar')}
-                        alt="user-avatar"
-                        fallback={images.noImage}
-                      />
+                      <Image src="" className={cx('user-avatar')} alt="user-avatar" fallback={images.noImage} />
                     </Tippy>
                   </Menu>
                 </>

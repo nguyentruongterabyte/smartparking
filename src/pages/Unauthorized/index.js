@@ -1,21 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
-
+import Error from '~/components/Error';
 function Unauthorized() {
   const navigate = useNavigate();
 
   const goBack = () => navigate(-1);
 
-  return (
-    <section>
-      <h1>Unauthorized</h1>
-      <br />
-      <p>You do not have access to the requested page.</p>
-      <div className="flexGrow">
-        <Button onClick={goBack}>Go Back</Button>
-      </div>
-    </section>
-  );
+  return <Error errorCode={401} message="You do not have access to the requested page." goBack={() => goBack()} />;
 }
 
 export default Unauthorized;

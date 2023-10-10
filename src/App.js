@@ -6,6 +6,7 @@ import './App.css';
 import { DefaultLayout } from '~/layouts';
 import RequireAuth from '~/components/RequireAuth';
 import Missing from '~/pages/Missing';
+import PersistLogin from '~/components/PersistLogin';
 
 function App() {
   return (
@@ -35,28 +36,30 @@ function App() {
           })}
 
           {/*We want to protect these routes*/}
-          {privateRoutes.map((route, index) => {
-            let Layout = DefaultLayout;
-            if (route.layout) {
-              Layout = route.layout;
-            } else if (route.layout === null) {
-              Layout = Fragment;
-            }
+          <Route element={<PersistLogin />}>
+            {privateRoutes.map((route, index) => {
+              let Layout = DefaultLayout;
+              if (route.layout) {
+                Layout = route.layout;
+              } else if (route.layout === null) {
+                Layout = Fragment;
+              }
 
-            const Page = route.component;
-            return (
-              <Route key={index} element={<RequireAuth allowedRoles={route.allowedRoles} />}>
-                <Route
-                  path={route.path}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              </Route>
-            );
-          })}
+              const Page = route.component;
+              return (
+                <Route key={index} element={<RequireAuth allowedRoles={route.allowedRoles} />}>
+                  <Route
+                    path={route.path}
+                    element={
+                      <Layout>
+                        <Page />
+                      </Layout>
+                    }
+                  />
+                </Route>
+              );
+            })}
+          </Route>
 
           {/* Catch all */}
           <Route path="*" element={<Missing />} />

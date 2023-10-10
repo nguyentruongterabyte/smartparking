@@ -9,7 +9,7 @@ export const login = async (username, password) => {
       },
       withCredentials: true,
     });
-    console.log(response.data);
+    // console.log(response.data);
     return {
       success: true,
       data: response?.data,
