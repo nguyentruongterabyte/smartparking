@@ -11,7 +11,7 @@ import hooks from '~/hooks';
 const cx = classNames.bind(styles);
 
 function Login() {
-  const { setAuth, persist, setPersist } = hooks.useAuth();
+  const { setAuth } = hooks.useAuth();
 
   const navigate = useNavigate();
   const from = config.routes.home; // from = location.state?.from?.pathname || config.routes.home
@@ -19,9 +19,10 @@ function Login() {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [user, setUser] = useState('');
+  const [user, resetUser, userAttribs] = hooks.useInput('user', '');
   const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
+  const [check, toggleCheck] = hooks.useToggle('persist', false);
 
   useEffect(() => {
     userRef.current?.focus();
@@ -42,76 +43,76 @@ function Login() {
         withCredentials: true,
       });
 
-      const role = response?.data?.object?.role;
       const accessToken = response?.data?.object?.accessToken;
       const refreshToken = response?.data?.object?.refreshToken;
-      setAuth({ user, pwd, role, accessToken, refreshToken });
-      if (persist) {
+      setAuth({ accessToken, refreshToken });
+      if (check) {
         localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-        localStorage.setItem('role', role);
+      } else {
+        localStorage.removeItem('refreshToken');
       }
       // console.log(refreshToken);
-      setUser('');
+      // setUser('');
+      resetUser('');
       setPwd('');
       navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
-        setErrMsg('No Server Response');
+        setErrMsg('Không có phản hồi từ máy chủ');
       } else if (err.response?.status === 401 || err.response?.status === 400) {
         setErrMsg(err?.response.data.message);
       } else {
-        setErrMsg('Login Failed');
+        setErrMsg('Đăng nhập thất bại');
       }
       errRef.current?.focus();
     }
   };
 
-  const togglePersist = () => {
-    setPersist((prev) => {
-      if (prev) {
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('role');
-      }
-      return !prev;
-    });
-  };
+  // const togglePersist = () => {
+  //   setPersist((prev) => {
+  //     if (prev) {
+  //
+  //     }
+  //     return !prev;
+  //   });
+  // };
 
-  useEffect(() => {
-    localStorage.setItem('persist', persist);
-  }, [persist]);
+  // useEffect(() => {
+  //   localStorage.setItem('persist', persist);
+  // }, [persist]);
 
   return (
     <section className={cx('wrapper')}>
       <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
         {errMsg}
       </p>
-      <h1>Sign In</h1>
+      <h1>Đăng Nhập</h1>
       <form onSubmit={handleSubmit} className={cx('form')}>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Tên đăng nhập:</label>
         <input
           type="text"
           id="username"
           ref={userRef}
+          spellCheck="false"
           autoComplete="off"
-          onChange={(e) => setUser(e.target.value)}
-          value={user}
+          {...userAttribs}
           required
         />
 
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Mật khẩu:</label>
         <input type="password" id="password" onChange={(e) => setPwd(e.target.value)} value={pwd} required />
-        <Button className={cx('login-btn')}>Sign In</Button>
+        <Button className={cx('login-btn')}>Đăng nhập</Button>
         <div className={cx('persistCheck')}>
-          <input type="checkbox" id="persist" onChange={togglePersist} checked={persist} />
-          <label htmlFor="persist">Trust This Device</label>
+          <input type="checkbox" id="persist" onChange={toggleCheck} checked={check} />
+          <label htmlFor="persist">Lưu thông tin</label>
         </div>
       </form>
       <p className={cx('need-account')}>
-        Need an Account?
+        Cần một tài khoản?
         <br />
         <span className="line">
           {/*put router link here*/}
-          <a href="/register">Sign Up</a>
+          <a href="/register">Đăng kí</a>
         </span>
       </p>
     </section>

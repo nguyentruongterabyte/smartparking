@@ -5,12 +5,10 @@ import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-const defaultFn = () => {};
-
 function Error({
   errorCode = 404,
   message = 'The page you are looking for might have been removed had its name changed or is temporarily unavailable.',
-  goBack = defaultFn,
+  goBack,
   goBackTitle = 'Go back',
 }) {
   let errorCodeStr = errorCode.toString();
@@ -25,7 +23,7 @@ function Error({
           </h1>
         </div>
         <p>{message}</p>
-        <Button outline onClick={goBack}>
+        <Button outline to={goBack}>
           {goBackTitle}
         </Button>
       </div>

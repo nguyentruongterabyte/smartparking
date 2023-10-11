@@ -61,11 +61,11 @@ const MENU_ITEMS = [
   },
 ];
 
+const defaultFn = () => {};
+
 function Header() {
   const { auth } = hooks.useAuth();
   const logout = hooks.useLogout();
-
-  const defaultFn = () => {};
 
   // handle menu change
   const handleMenuChange = (menuItem) => {

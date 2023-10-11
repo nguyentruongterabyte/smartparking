@@ -8,7 +8,8 @@ import Loading from '~/components/Loading';
 function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = hooks.useRefreshToken();
-  const { auth, persist } = hooks.useAuth();
+  const { auth } = hooks.useAuth();
+  const [persist] = hooks.useLocalStorage('persist', false);
 
   useEffect(() => {
     let isMounted = true;

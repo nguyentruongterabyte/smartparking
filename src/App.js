@@ -5,8 +5,9 @@ import { publicRoutes, privateRoutes } from '~/routes';
 import './App.css';
 import { DefaultLayout } from '~/layouts';
 import RequireAuth from '~/components/RequireAuth';
-import Missing from '~/pages/Missing';
 import PersistLogin from '~/components/PersistLogin';
+import Error from '~/components/Error';
+import config from './config';
 
 function App() {
   return (
@@ -62,7 +63,7 @@ function App() {
           </Route>
 
           {/* Catch all */}
-          <Route path="*" element={<Missing />} />
+          <Route path="*" element={<Error goBack={config.routes.home} />} />
         </Routes>
       </div>
     </Router>
