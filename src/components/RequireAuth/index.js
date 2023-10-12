@@ -1,5 +1,4 @@
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
 
 import hooks from '~/hooks';
 import config from '~/config';
@@ -7,10 +6,7 @@ import config from '~/config';
 function RequireAuth({ allowedRoles }) {
   const { auth } = hooks.useAuth();
   const location = useLocation(); // get the current location from the React Router
-
-  // {/*Cấu hình khi api accessToken trả về đúng*/}
-  const decoded = auth?.accessToken ? jwt_decode(auth?.accessToken) : undefined;
-  const role = decoded?.role || undefined;
+  const { role } = hooks.useJWTDecode();
 
   return allowedRoles?.includes(role) ? (
     // Check if the user's role is included in the allowedRoles

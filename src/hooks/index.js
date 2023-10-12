@@ -5,6 +5,7 @@ import useLogout from './useLogout';
 import useLocalStorage from './useLocalStorage';
 import useInput from './useInput';
 import useToggle from './useToggle';
+import useJWTDecode from './useJWTDecode';
 
 const hooks = {
   useAuth,
@@ -14,6 +15,7 @@ const hooks = {
   useLocalStorage,
   useInput,
   useToggle,
+  useJWTDecode,
 };
 
 export default hooks;

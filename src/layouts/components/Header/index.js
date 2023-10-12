@@ -5,13 +5,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
-import {
-  faCircleQuestion,
-  faEarthAsia,
-  faKeyboard,
-  faRightFromBracket,
-  faSquareParking,
-} from '@fortawesome/free-solid-svg-icons';
 
 import images from '~/assets/images';
 import config from '~/config';
@@ -20,12 +13,13 @@ import Button from '~/components/Button';
 import hooks from '~/hooks';
 import Menu from '~/components/Popper/Menu';
 import Image from '~/components/Image';
+import icons from '~/assets/icons';
 
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
   {
-    icon: <FontAwesomeIcon icon={faEarthAsia} />,
+    icon: <FontAwesomeIcon icon={icons.faEarthAsia} />,
     title: 'English',
     children: {
       title: 'Languages',
@@ -45,16 +39,16 @@ const MENU_ITEMS = [
     },
   },
   {
-    icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+    icon: <FontAwesomeIcon icon={icons.faCircleQuestion} />,
     title: 'Feedback and help',
     to: '/feedback',
   },
   {
-    icon: <FontAwesomeIcon icon={faKeyboard} />,
+    icon: <FontAwesomeIcon icon={icons.faKeyboard} />,
     title: 'Keyboard shortcut',
   },
   {
-    icon: <FontAwesomeIcon icon={faRightFromBracket} />,
+    icon: <FontAwesomeIcon icon={icons.faRightFromBracket} />,
     title: 'Log out',
     type: 'logout',
     separate: true,
@@ -85,7 +79,7 @@ function Header() {
         <Container className={cx('header-container')}>
           <Navbar.Brand className={cx('brand')}>
             <Link to={config.routes.home} className={cx('logo-link')}>
-              <FontAwesomeIcon className={cx('logo')} icon={faSquareParking} />
+              <FontAwesomeIcon className={cx('logo')} icon={icons.faSquareParking} />
             </Link>
             <span>Convenient Parking</span>
           </Navbar.Brand>

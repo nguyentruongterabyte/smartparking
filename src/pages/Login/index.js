@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
+import jwtDecode from 'jwt-decode';
 
 import styles from './Login.module.scss';
 import axios from '~/utils/axios';
@@ -12,9 +13,10 @@ const cx = classNames.bind(styles);
 
 function Login() {
   const { setAuth } = hooks.useAuth();
+  const ROLES = config.constants.ROLES;
 
   const navigate = useNavigate();
-  const from = config.routes.home; // from = location.state?.from?.pathname || config.routes.home
+  // from = location.state?.from?.pathname || config.routes.home
 
   const userRef = useRef();
   const errRef = useRef();
@@ -23,6 +25,8 @@ function Login() {
   const [pwd, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [check, toggleCheck] = hooks.useToggle('persist', false);
+
+  const navigateAfterLogin = (from, navigate) => navigate(from, { replace: true });
 
   useEffect(() => {
     userRef.current?.focus();
@@ -46,6 +50,8 @@ function Login() {
       const accessToken = response?.data?.object?.accessToken;
       const refreshToken = response?.data?.object?.refreshToken;
       setAuth({ accessToken, refreshToken });
+      const role = accessToken ? jwtDecode(accessToken).role : undefined;
+
       if (check) {
         localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
       } else {
@@ -55,7 +61,23 @@ function Login() {
       // setUser('');
       resetUser('');
       setPwd('');
-      navigate(from, { replace: true });
+      switch (role) {
+        case ROLES.admin:
+          navigateAfterLogin(config.routes.admin, navigate);
+          break;
+        case ROLES.merchant:
+          navigateAfterLogin(config.routes.merchant, navigate);
+          break;
+        case ROLES.employee:
+          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
+          break;
+        case ROLES.user:
+          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
+          break;
+        default:
+          throw new Error('No role detected');
+      }
+      // switch ()
     } catch (err) {
       if (!err?.response) {
         setErrMsg('Không có phản hồi từ máy chủ');
