@@ -64,15 +64,16 @@ body {
 input,
 button,
 [tabindex] {
-  outline: none;
+  // outline: none;
   border: none;
 }
 
 input[type="text"],
 input[type="password"],
+input[type="email"],
 button,
 textarea {
-  font-size: 22px;
+  font-size: 1.8rem;
   padding: 0.25rem;
   border-radius: 0.5rem;
 }
@@ -112,6 +113,20 @@ html *::-webkit-scrollbar-track {
   margin-bottom: 0.5rem;
 }
 
+.instructions {
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions>svg {
+  margin-right: 0.25rem;
+}
+
 .offscreen {
   position: absolute;
   left: -9999px;
@@ -125,6 +140,10 @@ html *::-webkit-scrollbar-track {
 .valid {
   color: limegreen;
   margin-left: 0.25rem;
+}
+
+.line {
+  display: inline-block;
 }
 
 // Fonts embedded

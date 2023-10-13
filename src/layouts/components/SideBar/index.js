@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 function SideBar({ children }) {
   const [isOpen, toggleIsOpen] = hooks.useToggle('menu-open', true);
   const ROLES = config.constants.ROLES;
-  const { role } = hooks.use();
+  const { role } = hooks.useJWTDecode();
 
   const menuItems =
     role && role === ROLES.admin

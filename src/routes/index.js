@@ -7,6 +7,7 @@ import Unauthorized from '~/pages/Unauthorized';
 import Admin from '~/pages/Admin';
 import Merchant from '~/pages/Merchant';
 import Accounts from '~/pages/Accounts';
+import Register from '~/pages/Register';
 
 const ROLES = config.constants.ROLES;
 
@@ -15,6 +16,7 @@ const publicRoutes = [
   { path: config.routes.login, component: Login, layout: layouts.LoginLayout },
   { path: config.routes.unauthorized, component: Unauthorized, layout: null },
   { path: config.routes.home, component: Home },
+  { path: config.routes.register, component: Register, layout: layouts.LoginLayout },
   // any more
 ];
 

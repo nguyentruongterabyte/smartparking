@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import jwtDecode from 'jwt-decode';
 
@@ -90,19 +90,6 @@ function Login() {
     }
   };
 
-  // const togglePersist = () => {
-  //   setPersist((prev) => {
-  //     if (prev) {
-  //
-  //     }
-  //     return !prev;
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   localStorage.setItem('persist', persist);
-  // }, [persist]);
-
   return (
     <section className={cx('wrapper')}>
       <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
@@ -134,7 +121,7 @@ function Login() {
         <br />
         <span className="line">
           {/*put router link here*/}
-          <a href="/register">Đăng kí</a>
+          <Link to={config.routes.register}>Đăng kí</Link>
         </span>
       </p>
     </section>

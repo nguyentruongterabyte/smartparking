@@ -10,6 +10,9 @@ import {
   faHome,
   faUser,
   faParking,
+  faTimes,
+  faCheck,
+  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -24,6 +27,9 @@ const icons = {
   faHome,
   faUser,
   faParking,
+  faTimes,
+  faCheck,
+  faInfoCircle,
 };
 
 export default icons;
