@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import jwtDecode from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 import styles from './Login.module.scss';
 import axios from '~/utils/axios';
@@ -77,11 +78,14 @@ function Login() {
         default:
           throw new Error('No role detected');
       }
+      toast(`Hi ${user}, Chào mừng quay trở lại!`);
       // switch ()
     } catch (err) {
       if (!err?.response) {
         setErrMsg('Không có phản hồi từ máy chủ');
-      } else if (err.response?.status === 401 || err.response?.status === 400) {
+      } else if (err.response?.status === 401) {
+        navigate(config.routes.verificationRequest, { replace: true });
+      } else if (err.response?.status === 400) {
         setErrMsg(err?.response.data.message);
       } else {
         setErrMsg('Đăng nhập thất bại');

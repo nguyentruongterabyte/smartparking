@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './Menu.module.scss';
 import Button from '~/components/Button';
@@ -11,7 +12,7 @@ function MenuItem({ data, onClick }) {
   });
 
   return (
-    <Button className={classes} to={data.to} leftIcon={data.icon} onClick={onClick}>
+    <Button className={classes} to={data.to} leftIcon={<FontAwesomeIcon icon={data.icon} />} onClick={onClick}>
       {data.title}
     </Button>
   );

@@ -8,6 +8,9 @@ import Admin from '~/pages/Admin';
 import Merchant from '~/pages/Merchant';
 import Accounts from '~/pages/Accounts';
 import Register from '~/pages/Register';
+import Verification from '~/pages/Verification';
+import VerificationRequest from '~/pages/VerificationRequest';
+import Profile from '~/pages/Profile';
 
 const ROLES = config.constants.ROLES;
 
@@ -17,6 +20,8 @@ const publicRoutes = [
   { path: config.routes.unauthorized, component: Unauthorized, layout: null },
   { path: config.routes.home, component: Home },
   { path: config.routes.register, component: Register, layout: layouts.LoginLayout },
+  { path: config.routes.verification, component: Verification, layout: layouts.LoginLayout },
+  { path: config.routes.verificationRequest, component: VerificationRequest, layout: layouts.LoginLayout },
   // any more
 ];
 
@@ -44,6 +49,12 @@ const privateRoutes = [
     path: config.routes.accounts,
     component: Accounts,
     allowedRoles: [ROLES.admin],
+    layout: layouts.HasSideBarLayout,
+  },
+  {
+    path: config.routes.profile,
+    component: Profile,
+    allowedRoles: [ROLES.admin, ROLES.user, ROLES.employee, ROLES.merchant],
     layout: layouts.HasSideBarLayout,
   },
 ];

@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Tippy from '@tippyjs/react';
 
@@ -17,49 +17,14 @@ import icons from '~/assets/icons';
 
 const cx = classNames.bind(styles);
 
-const MENU_ITEMS = [
-  {
-    icon: <FontAwesomeIcon icon={icons.faEarthAsia} />,
-    title: 'English',
-    children: {
-      title: 'Languages',
-      data: [
-        {
-          title: 'English',
-          type: 'language',
-          code: 'en',
-          separate: true,
-        },
-        {
-          title: 'Tiếng Việt',
-          type: 'language',
-          code: 'vi',
-        },
-      ],
-    },
-  },
-  {
-    icon: <FontAwesomeIcon icon={icons.faCircleQuestion} />,
-    title: 'Feedback and help',
-    to: '/feedback',
-  },
-  {
-    icon: <FontAwesomeIcon icon={icons.faKeyboard} />,
-    title: 'Keyboard shortcut',
-  },
-  {
-    icon: <FontAwesomeIcon icon={icons.faRightFromBracket} />,
-    title: 'Log out',
-    type: 'logout',
-    separate: true,
-  },
-];
+const MENU_ITEMS = config.constants.ACCOUNT_MENU_ITEMS;
 
 const defaultFn = () => {};
 
 function Header() {
   const { auth } = hooks.useAuth();
   const logout = hooks.useLogout();
+  const navigate = useNavigate();
 
   // handle menu change
   const handleMenuChange = (menuItem) => {
@@ -69,6 +34,10 @@ function Header() {
         logout();
         break;
       }
+      // handle view profile
+      case 'viewProfile':
+        navigate(config.routes.profile, { replace: true });
+        break;
       default:
         defaultFn();
     }

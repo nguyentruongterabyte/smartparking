@@ -1,13 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames/bind';
+import { toast } from 'react-toastify';
 
 import icons from '~/assets/icons';
 import config from '~/config';
 import styles from '~/pages/Login/Login.module.scss';
 import Button from '~/components/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '~/utils/axios';
+import hooks from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +25,7 @@ function Register() {
   const [validEmail, setValidEmail] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
 
-  const [user, setUser] = useState('');
+  const [user, resetUser, userAttribs] = hooks.useInput('user', '');
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
 
@@ -38,6 +40,8 @@ function Register() {
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
+  const from = config.routes.verificationRequest;
+  const navigate = useNavigate();
   useEffect(() => {
     userRef?.current?.focus();
   }, []);
@@ -93,9 +97,11 @@ function Register() {
       );
       console.log(response?.data);
       setSuccess(true);
-      setUser('');
+      resetUser('');
       setEmail('');
       setPwd('');
+      toast.success(response?.data?.message);
+      navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
         setErrMsg('Không có phản hồi từ máy chủ');
@@ -155,14 +161,13 @@ function Register() {
               id="username"
               ref={userRef}
               autoComplete="off"
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
+              spellCheck="false"
               required
               aria-invalid={validName ? 'false' : 'true'}
               aria-describedby="uidnote"
               onFocus={() => setUserFocus(true)}
               onBlur={() => setUserFocus(false)}
+              {...userAttribs}
             />
             <p id="uidnote" className={userFocus && user && !validName ? 'instructions' : 'offscreen'}>
               <FontAwesomeIcon icon={icons.faInfoCircle} />

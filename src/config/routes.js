@@ -7,6 +7,9 @@ const routes = {
   admin: '/admin',
   merchant: '/merchant',
   accounts: '/accounts',
+  verification: '/verification',
+  verificationRequest: '/verification-request',
+  profile: '/profile',
 };
 
 export default routes;

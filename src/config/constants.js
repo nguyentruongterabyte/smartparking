@@ -18,6 +18,52 @@ export const REFRESH_URL = 'api/auth/refresh';
 export const REGISTER_URL = 'api/auth/register';
 // Get parking lots url
 export const PARKING_LOTS_URL = 'api/parkingLots';
+// Send email verification url
+export const EMAIL_VERIFICATION_URL = 'api/auth/verification';
+
+// Account menu items
+export const ACCOUNT_MENU_ITEMS = [
+  {
+    icon: icons.faEarthAsia,
+    title: 'Tiếng việt',
+    children: {
+      title: 'Ngôn ngữ',
+      data: [
+        {
+          title: 'English',
+          type: 'language',
+          code: 'en',
+          separate: true,
+        },
+        {
+          title: 'Tiếng Việt',
+          type: 'language',
+          code: 'vi',
+        },
+      ],
+    },
+  },
+  {
+    icon: icons.faKeyboard,
+    title: 'Phím tắt',
+  },
+  {
+    icon: icons.faAddressCard,
+    title: 'Hồ sơ của tôi',
+    type: 'viewProfile',
+  },
+  {
+    icon: icons.faCircleQuestion,
+    title: 'Phản hồi và trợ giúp',
+    to: '/feedback',
+  },
+  {
+    icon: icons.faRightFromBracket,
+    title: 'Đăng xuất',
+    type: 'logout',
+    separate: true,
+  },
+];
 
 // Menu sidebar
 export const SIDEBAR_ADMIN_MENU = [

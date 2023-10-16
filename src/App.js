@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { publicRoutes, privateRoutes } from '~/routes';
 import './App.css';
@@ -11,8 +13,8 @@ import config from './config';
 
 function App() {
   return (
-    <Router>
-      <div className="app">
+    <div className="app">
+      <Router>
         {/*Public routes*/}
         <Routes>
           {publicRoutes.map((route, index) => {
@@ -65,8 +67,9 @@ function App() {
           {/* Catch all */}
           <Route path="*" element={<Error goBack={config.routes.home} />} />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+      <ToastContainer />
+    </div>
   );
 }
 

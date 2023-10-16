@@ -13,6 +13,7 @@ import {
   faTimes,
   faCheck,
   faInfoCircle,
+  faAddressCard,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -30,6 +31,7 @@ const icons = {
   faTimes,
   faCheck,
   faInfoCircle,
+  faAddressCard,
 };
 
 export default icons;
