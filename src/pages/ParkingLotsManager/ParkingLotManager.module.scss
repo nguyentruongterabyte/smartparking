@@ -1,0 +1,68 @@
+.wrapper {
+  // min-height: 10000px;
+}
+
+.parking-lot__list {
+  
+}
+
+// Parking lot item
+.parking-lot {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 1rem;
+}
+
+.parking-lot__wrapper {
+  display: flex !important;
+  justify-content: center;
+}
+
+.parking-lot__img-wrapper {
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  width: 400px;
+  padding: 0 12px;
+  margin-top: 12px;
+}
+
+.parking-lot__img {
+  border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.parking-lot__information {
+  margin-top: 16px;
+  padding: 0 16px;
+  .parking-lot__name {
+    font-weight: 600;
+  }
+  
+  .parking-lot__vehicles-quantity {
+    color: green;
+  }
+
+  .full {
+    color: red;
+  }
+  
+  .parking-lot__address {
+    color: #8d8d8d;
+  }
+  .parking-lot__name,
+  .parking-lot__vehicles-quantity,
+  .parking-lot__address {
+    margin-bottom: 0;
+  }
+}
+
+.parking-lot__buttons {
+  padding: 0 16px 24px;
+}
+

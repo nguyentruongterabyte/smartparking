@@ -5,9 +5,8 @@ export const APP_NAME = 'Convenient Parking';
 export const END_USER_BASE_URL = '';
 export const APP_ID = 999888;
 // Server base url
-// http://localhost:8080/
-export const SERVER_BASE_URL = 'http://localhost:8080/';
-
+//https://5e05-116-110-43-56.ngrok-free.app
+export const SERVER_BASE_URL = 'https://e346-116-110-40-98.ngrok-free.app';
 // Login api url
 export const LOGIN_URL = 'api/auth/login';
 // Logout api url
@@ -17,9 +16,17 @@ export const REFRESH_URL = 'api/auth/refresh';
 // Register api url
 export const REGISTER_URL = 'api/auth/register';
 // Get parking lots url
-export const PARKING_LOTS_URL = 'api/parkingLots';
+export const PARKING_LOTS_URL = 'api/parkinglot';
+// Search parking lot url
+export const SEARCHING_LOTS_URL = 'api/parkinglot/search';
 // Send email verification url
 export const EMAIL_VERIFICATION_URL = 'api/auth/verification';
+// Get parking lot id by username url
+export const PARKING_LOT_ID_BY_USERNAME_URL = 'api/employee/parkinglot-by-username';
+// Get information by username url
+export const USER_INFO_URL = 'api/user/information';
+// Get merchant information by username url
+export const MERCHANT_INFO_URL = 'api/merchant/information';
 
 // Account menu items
 export const ACCOUNT_MENU_ITEMS = [
@@ -91,9 +98,14 @@ export const SIDEBAR_MERCHANT_MENU = [
     icon: icons.faHome,
   },
   {
-    path: routes.parkingLots,
+    path: routes.parkingLotsManager,
     name: 'Bãi đỗ xe',
     icon: icons.faParking,
+  },
+  {
+    path: routes.merchant,
+    name: 'Merchant',
+    icon: icons.faStore,
   },
 ];
 
@@ -108,6 +120,11 @@ export const SIDEBAR_USER_MENU = [
     name: 'Bãi đỗ xe',
     icon: icons.faParking,
   },
+  {
+    path: routes.userCheckIn,
+    name: 'Check in',
+    icon: icons.faQrcode,
+  },
 ];
 
 export const SIDEBAR_EMPLOYEE_MENU = [
@@ -120,6 +137,11 @@ export const SIDEBAR_EMPLOYEE_MENU = [
     path: routes.parkingLots,
     name: 'Bãi đỗ xe',
     icon: icons.faParking,
+  },
+  {
+    path: routes.employeeCheckIn,
+    name: 'Check In',
+    icon: icons.faQrcode,
   },
 ];
 

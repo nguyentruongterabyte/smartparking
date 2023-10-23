@@ -6,6 +6,7 @@ import useLocalStorage from './useLocalStorage';
 import useInput from './useInput';
 import useToggle from './useToggle';
 import useJWTDecode from './useJWTDecode';
+import useDebounce from './useDebounce';
 
 const hooks = {
   useAuth,
@@ -16,6 +17,7 @@ const hooks = {
   useInput,
   useToggle,
   useJWTDecode,
+  useDebounce,
 };
 
 export default hooks;

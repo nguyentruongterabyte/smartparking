@@ -33,7 +33,7 @@ const APP_ADVANTAGES = [
 
 function Home() {
   return (
-    <div className={cx('wrapper')}>
+    <div className={cx('wrapper', 'grid')}>
       <div
         className={cx('content-image-behind-header')}
         style={{
@@ -52,8 +52,8 @@ function Home() {
         </div>
       </div>
       <div className={cx('advantages-app')}>
-        <section className={cx('advantages-app-wrapper')}>
-          <div className={cx('advantages-app-left')}>
+        <section className={cx('advantages-app-wrapper', 'row')}>
+          <div className={cx('advantages-app-left', 'col', 'l-6 m-6 c-12')}>
             <div className={cx('app-useful')}>
               {APP_ADVANTAGES.map((advantage, index) => {
                 return (
@@ -66,7 +66,7 @@ function Home() {
               })}
             </div>
           </div>
-          <div className={cx('advantages-app-right')}>
+          <div className={cx('advantages-app-right', 'col', 'l-6 m-6 c-0')}>
             <div className={cx('advantages-app-right-wrapper')}>
               <div className={cx('right-banner-img-wrapper')}>
                 <img src={images.rightBanner} alt="partner-benefit" className={cx('right-banner-img')} />

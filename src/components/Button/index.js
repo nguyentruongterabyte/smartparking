@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Button.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const cx = classNames.bind(styles);
 
@@ -13,6 +14,7 @@ function Button({
   rounded = false,
   small = false,
   large = false,
+  danger = false,
   disabled = false,
   children,
   className,
@@ -53,14 +55,23 @@ function Button({
     rounded,
     small,
     large,
+    danger,
     disabled,
   });
 
   return (
     <Comp className={cx(classes)} {...props}>
-      {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
+      {leftIcon && (
+        <span className={cx('icon')}>
+          <FontAwesomeIcon icon={leftIcon} />
+        </span>
+      )}
       <span className={cx('title')}>{children}</span>
-      {rightIcon && <span className={cx('title')}>{children}</span>}
+      {rightIcon && (
+        <span className={cx('icon')}>
+          <FontAwesomeIcon icon={rightIcon} />
+        </span>
+      )}
     </Comp>
   );
 }

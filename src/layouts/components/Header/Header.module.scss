@@ -50,21 +50,23 @@
   }
 }
 
-// Nav links
-.nav-links {
-  align-items: center;
+// Nav item
+.nav-item {
+  padding: 12px 12px;
+  width: 100%;
+  background-color: var(--black);
+  &:hover {
+    background-color: var(--white);
+    .nav-link {
+      color: var(--black);
+    }
+  }
+  .nav-link {
+    color: var(--white);
+  }
 }
 
-.nav-link-item {
-  font-weight: bold;
-  color: var(--white) !important;
-  opacity: .8;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  .nav-icon {
-    margin-right: 6px;
-  }
+.account-btn {
+  width: 100%;
+  background-color: var(--black);
 }

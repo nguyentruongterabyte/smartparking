@@ -25,6 +25,7 @@ function App() {
               Layout = Fragment;
             }
             const Page = route.component;
+            // const HeaderSearch = route.headerSearch;
             return (
               <Route
                 key={index}
@@ -54,7 +55,7 @@ function App() {
                   <Route
                     path={route.path}
                     element={
-                      <Layout>
+                      <Layout headerSearch={route.headerSearch}>
                         <Page />
                       </Layout>
                     }

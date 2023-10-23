@@ -1,3 +1,11 @@
 .container {
   margin-top: var(--default-layout-header-height);
 }
+
+.header {
+  z-index: 100;
+}
+
+.sidebar {
+  z-index: 99;
+}

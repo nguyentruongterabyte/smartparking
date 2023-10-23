@@ -71,6 +71,11 @@
   }
 }
 
+.danger {
+  background-color: #ff4b4b;
+  color: var(--white);
+}
+
 // Button sizes
 .small {
   min-width: 88px;

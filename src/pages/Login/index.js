@@ -64,7 +64,7 @@ function Login() {
       setPwd('');
       switch (role) {
         case ROLES.admin:
-          navigateAfterLogin(config.routes.admin, navigate);
+          navigateAfterLogin(config.routes.test, navigate);
           break;
         case ROLES.merchant:
           navigateAfterLogin(config.routes.merchant, navigate);

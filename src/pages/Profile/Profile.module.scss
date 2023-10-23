@@ -1,0 +1,27 @@
+  .wrapper {
+    --card-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .user-avatar {
+    // padding-top: 100%;
+    width: var(--card-width);
+    height: 200px;
+    // object-fit: cover;
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    min-width: var(--card-width);
+    max-width: var(--card-width);
+    margin: auto;
+    text-align: center;
+  }
+
+  .title {
+    color: grey;
+    font-size: 18px;
+  }

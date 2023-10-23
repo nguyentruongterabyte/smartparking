@@ -5,12 +5,12 @@ import Header from '../components/Header';
 import styles from './HasSideBarLayout.module.scss';
 
 const cx = classNames.bind(styles);
-function HasSideBarLayout({ children }) {
+function HasSideBarLayout({ children, headerSearch }) {
   return (
     <div className={cx('wrapper')}>
-      <Header />
+      <Header className={cx('header')} headerSearch={headerSearch} />
       <div className={cx('container')}>
-        <SideBar>
+        <SideBar className={cx('sidebar')}>
           <div className={cx('content')}>{children}</div>
         </SideBar>
       </div>

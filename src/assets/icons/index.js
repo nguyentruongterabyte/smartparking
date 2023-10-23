@@ -14,6 +14,11 @@ import {
   faCheck,
   faInfoCircle,
   faAddressCard,
+  faStore,
+  faQrcode,
+  faPencil,
+  faCircleXmark,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -32,6 +37,11 @@ const icons = {
   faCheck,
   faInfoCircle,
   faAddressCard,
+  faStore,
+  faQrcode,
+  faPencil,
+  faCircleXmark,
+  faSpinner,
 };
 
 export default icons;

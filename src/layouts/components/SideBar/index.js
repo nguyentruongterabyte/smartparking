@@ -9,10 +9,12 @@ import icons from '~/assets/icons';
 
 const cx = classNames.bind(styles);
 
-function SideBar({ children }) {
+function SideBar({ children, className }) {
   const [isOpen, toggleIsOpen] = hooks.useToggle('menu-open', true);
   const ROLES = config.constants.ROLES;
   const { role } = hooks.useJWTDecode();
+
+  const classes = cx('container', { [className]: className });
 
   const menuItems =
     role && role === ROLES.admin
@@ -25,9 +27,9 @@ function SideBar({ children }) {
       ? config.constants.SIDEBAR_EMPLOYEE_MENU
       : [];
   return (
-    <div className={cx('container')}>
+    <div className={cx(classes)}>
       <div
-        className={cx('sidebar', {
+        className={cx('sidebar', 'hide-on-mobile-tablet', {
           toggle: !isOpen,
         })}
       >
@@ -39,12 +41,7 @@ function SideBar({ children }) {
           >
             Menu
           </h1>
-          <div
-            className={cx('bars', {
-              'ml-0': !isOpen,
-            })}
-            onClick={toggleIsOpen}
-          >
+          <div className={cx('bars')} onClick={toggleIsOpen}>
             <FontAwesomeIcon icon={icons.faBars} />
           </div>
         </div>

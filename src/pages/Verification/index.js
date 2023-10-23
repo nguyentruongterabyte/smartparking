@@ -41,7 +41,6 @@ function Verification() {
         },
       );
 
-      console.log(response);
       toast.success(response?.data?.message);
       navigate(from, { replace: true });
     } catch (err) {
