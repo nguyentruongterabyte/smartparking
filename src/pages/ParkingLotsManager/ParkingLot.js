@@ -25,7 +25,7 @@ function ParkingLot({ data }) {
           </p>
           <br />
           <p className={cx('parking-lot__address')}>
-            {data.street}, {data.ward}, {data.district}, {data.city}
+            {data.number}, {data.street}, {data.ward}, {data.district}, {data.city}
           </p>
           <br />
           <p>

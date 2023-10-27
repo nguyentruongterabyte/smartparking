@@ -19,6 +19,8 @@ import {
   faPencil,
   faCircleXmark,
   faSpinner,
+  faPlus,
+  faLocationCrosshairs,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
@@ -42,6 +44,8 @@ const icons = {
   faPencil,
   faCircleXmark,
   faSpinner,
+  faPlus,
+  faLocationCrosshairs,
 };
 
 export default icons;

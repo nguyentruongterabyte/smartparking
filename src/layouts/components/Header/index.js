@@ -76,13 +76,14 @@ function Header({ className, headerSearch }) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className={cx('navbar-collapse')}>
             {headerSearch ? (
-              <Nav>
-                <Search />
+              <Nav className={cx('navbar-nav')}>
+                <Search className={cx('hide-on-mobile-tablet')} />
+                <Search className={cx('header-search', 'nav-item', 'hide-on-pc')} />
               </Nav>
             ) : (
               <></>
             )}
-            <Nav>
+            <Nav className={cx('navbar-nav')}>
               {auth.accessToken ? (
                 <>
                   {menuItems.map((item, index) => (

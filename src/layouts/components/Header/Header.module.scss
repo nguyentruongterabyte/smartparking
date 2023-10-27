@@ -13,6 +13,11 @@
   .navbar-collapse {
     height: var(--default-layout-header-height);
     justify-content: flex-end;
+    gap: 180px;
+  }
+
+  .navbar-nav {
+    max-width: calc(100vw - 16px);
   }
 
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
-import { toast } from 'react-toastify';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -10,6 +9,7 @@ import icons from '~/assets/icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import config from '~/config';
 import { SearchIcon } from '~/components/Icons';
+import ParkingLotResult from './ParkingLotResult';
 
 const cx = classNames.bind(styles);
 
@@ -79,7 +79,7 @@ export function SearchParkingLot({ className }) {
             <PopperWrapper>
               <h4 className={cx('search-title')}>Bãi đỗ xe</h4>
               {searchResult.map((result) => (
-                <div key={result.id}>{result.parkingLotName}</div>
+                <ParkingLotResult key={result.id} data={result} />
               ))}
             </PopperWrapper>
           </div>
@@ -117,10 +117,11 @@ export function SearchParkingLotByMerchantId({ className }) {
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null);
   const axiosPrivate = hooks.useAxiosPrivate();
-  const [username, _] = hooks.useLocalStorage('user', '');
+  const username = hooks.useLocalStorage('user', '')[0];
+  const debounced = hooks.useDebounce(searchValue, 700);
 
   const getMerchantIdByUsername = async (username) => {
-    const response = await axiosPrivate.post('/api/merchant/information', JSON.stringify({ username }), {
+    const response = await axiosPrivate.post(config.constants.MERCHANT_INFO_URL, JSON.stringify({ username }), {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -130,37 +131,43 @@ export function SearchParkingLotByMerchantId({ className }) {
   };
 
   const searchParkingLotByMerchantId = async (keyword, id) => {
-    const response = await axiosPrivate.post('/api/parkinglot/search', JSON.stringify({ id, keyword }), {
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await axiosPrivate.post(
+      config.constants.SEARCH_PARKING_LOTS_URL,
+      JSON.stringify({ id, keyword }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    });
+    );
     return response;
   };
-
-  const debounced = hooks.useDebounce(searchValue, 700);
 
   const inputRef = useRef();
 
   useEffect(() => {
-    const fetchApi = async () => {
-      const response = await getMerchantIdByUsername(username);
-      return response;
-    };
-    fetchApi()
-      .then((res) => {
-        // console.log(res);
-        setId(res.data?.object?.id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!id) {
+      const fetchApi = async () => {
+        const response = await getMerchantIdByUsername(username);
+        return response;
+      };
+      fetchApi()
+        .then((res) => {
+          // console.log(res);
+          setId(res.data?.object?.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (!debounced || !id) {
+      // setUsername('');
+      // toast.error('Lỗi tìm kiếm!');
       return;
     }
 
@@ -194,7 +201,6 @@ export function SearchParkingLotByMerchantId({ className }) {
     }
   };
 
-  // console.log(searchResult);
   return (
     <div className={cx({ [className]: className })}>
       <HeadlessTippy
@@ -204,15 +210,15 @@ export function SearchParkingLotByMerchantId({ className }) {
           <div className={cx('search-result')} tabIndex="-1" {...attrs}>
             <PopperWrapper>
               <h4 className={cx('search-title')}>Bãi đỗ xe</h4>
-              {searchResult.map((result) => (
-                <div key={result.id}>{result.parkingLotName}</div>
-              ))}
+              {searchResult.map((result) => {
+                return <ParkingLotResult key={result.id} data={result} />;
+              })}
             </PopperWrapper>
           </div>
         )}
         onClickOutside={handleHideResult}
       >
-        <div className={cx('search')}>
+        <div className={cx('search-on-mobile-tablet', 'search')}>
           <input
             ref={inputRef}
             value={searchValue}

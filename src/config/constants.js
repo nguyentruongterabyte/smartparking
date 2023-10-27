@@ -6,7 +6,10 @@ export const END_USER_BASE_URL = '';
 export const APP_ID = 999888;
 // Server base url
 //https://5e05-116-110-43-56.ngrok-free.app
-export const SERVER_BASE_URL = 'https://e346-116-110-40-98.ngrok-free.app';
+export const SERVER_BASE_URL = 'https://cd83-116-110-40-55.ngrok-free.app';
+
+// Google map api key
+export const GOOGLE_MAP_API_KEYS = 'AIzaSyAxy60O_V7UnrbkvaGJF1K9BIYINZL2WH4';
 // Login api url
 export const LOGIN_URL = 'api/auth/login';
 // Logout api url
@@ -27,6 +30,10 @@ export const PARKING_LOT_ID_BY_USERNAME_URL = 'api/employee/parkinglot-by-userna
 export const USER_INFO_URL = 'api/user/information';
 // Get merchant information by username url
 export const MERCHANT_INFO_URL = 'api/merchant/information';
+// Account menu items
+export const SEARCH_PARKING_LOTS_URL = '/api/parkinglot/search';
+// Get all vehicle types
+export const VEHICLE_TYPES_URL = '/api/vehicle-type';
 
 // Account menu items
 export const ACCOUNT_MENU_ITEMS = [

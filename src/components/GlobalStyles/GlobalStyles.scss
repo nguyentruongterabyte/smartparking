@@ -7,6 +7,7 @@
   --white: #fff;
   --text-color: #161823;
   --blur-text-color: #7b809a;
+  --border-color: #dbdbdb;
 
   // Search 
   --search-border-radius: 92px;
@@ -186,6 +187,11 @@ html *::-webkit-scrollbar-track {
   .nav__pc {
     display: none;
   }
+
+  .search-on-mobile-tablet {
+    width: 100%;
+  }
+
 }
 
 /* Tablet */
@@ -193,12 +199,17 @@ html *::-webkit-scrollbar-track {
   .hide-tablet {
     display: none;
   }
+  
 }
 
 /* Mobile */
-@media (max-width: 46.1875em) {
+@media (max-width: 46.25em) {
   .hide-on-mobile {
     display: none;
+  }
+
+  .wrapper-on-mobile {
+    width: 100vw;
   }
 }
 

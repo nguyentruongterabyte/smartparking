@@ -16,6 +16,7 @@ import UserCheckIn from '~/pages/UserCheckIn';
 import EmployeeCheckIn from '~/pages/EmployeeCheckIn';
 import ParkingLotsManager from '~/pages/ParkingLotsManager';
 import { SearchParkingLotByMerchantId } from '~/components/Search';
+// import configOverrides from 'config-overrides';
 
 const ROLES = config.constants.ROLES;
 
@@ -27,17 +28,18 @@ const publicRoutes = [
   { path: config.routes.register, component: Register, layout: layouts.LoginLayout },
   { path: config.routes.verification, component: Verification, layout: layouts.LoginLayout },
   { path: config.routes.verificationRequest, component: VerificationRequest, layout: layouts.LoginLayout },
+  { path: config.routes.test, component: Test, layout: null },
   // any more
 ];
 
 // private routes
 const privateRoutes = [
-  {
-    path: config.routes.test,
-    allowedRoles: [ROLES.admin, ROLES.merchant, ROLES.employee, ROLES.user],
-    component: Test,
-    layout: layouts.HasSideBarLayout,
-  },
+  // {
+  //   path: config.routes.test,
+  //   component: Test,
+  //   allowedRoles: [ROLES.admin, ROLES.merchant, ROLES.employee, ROLES.user],
+  //   layout: layouts.HasSideBarLayout,
+  // },
   {
     path: config.routes.homeHasLoggedIn,
     component: Home,

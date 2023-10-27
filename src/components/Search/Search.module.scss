@@ -93,3 +93,26 @@
     background-color: rgba(22, 24, 35, 0.06);
   }
 }
+
+// parking lots search result
+.parking-lot-item {
+  padding: 0 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f6f6f6;
+  }
+
+  .parking-lot-name {
+    line-height: 2rem;
+    padding-top: 12px;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .parking-lot-address {
+    color: #969696;
+  }
+}
+
+
