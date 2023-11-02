@@ -1,16 +1,21 @@
-import React, { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { memo, useState } from 'react';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import { toast } from 'react-toastify';
 import classNames from 'classnames/bind';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
+import '@reach/combobox/styles.css';
+import propTypes from 'prop-types';
 
 import styles from './Map.module.scss';
 import config from '~/config';
 import Loading from '~/components/Loading';
 import { mapStyle } from './mapStyle';
 import icons from '~/assets/icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '~/components/Button';
+// import Search from './Search';
 
 const cx = classNames.bind(styles);
 
@@ -32,23 +37,30 @@ const options = {
   zoomControl: true,
 };
 
-function Map({ isOpen, onClose }) {
+function Map({ lat, lng, isOpen, onClose, width = containerStyle.width, height = containerStyle.height, zoom = 10 }) {
   const [myLocation, setLocation] = useState(center);
+
+  const mapRef = useRef();
 
   const handleLocationBtnClick = () => {
     getMyLocation();
   };
 
-  const handleClose = (e) => {
+  const handleChoice = (e) => {
     e.preventDefault();
     onClose(marker);
+  };
+
+  const handleClose = (e) => {
+    e.preventDefault();
+    onClose();
   };
 
   const getMyLocation = () => {
     const success = (position) => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      setLocation({ lat, lng });
+      setLocation({ lat: lat, lng: lng });
     };
 
     const error = () => {
@@ -60,7 +72,13 @@ function Map({ isOpen, onClose }) {
     return myLocation;
   };
 
-  const [marker, setMarker] = useState(center);
+  const [marker, setMarker] = useState({ lat: Number(lat), lng: Number(lng) });
+
+  useEffect(() => {
+    if (typeof lat === 'number' && typeof lng === 'number') {
+      setMarker({ lat, lng });
+    }
+  }, [lat, lng]);
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
@@ -72,18 +90,15 @@ function Map({ isOpen, onClose }) {
     toast.error('Lỗi tải bản đồ!');
   }
 
-  const [map, setMap] = useState(null);
-
   const onLoad = useCallback(function callback(map) {
     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
-
-    setMap(map);
+    mapRef.current = map;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onUnmount = useCallback(function callback(map) {
-    setMap(null);
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(17);
   }, []);
 
   return isLoaded ? (
@@ -101,23 +116,28 @@ function Map({ isOpen, onClose }) {
       <button className={cx('location-btn')} onClick={handleLocationBtnClick}>
         <FontAwesomeIcon icon={icons.faLocationCrosshairs} />
       </button>
-      <Button primary className={cx('choice-btn')} onClick={handleClose}>
+      <Button primary className={cx('choice-btn')} onClick={handleChoice}>
         Chọn địa điểm này
       </Button>
+      <Button danger className={cx('close-btn')} onClick={handleClose}>
+        Đóng
+      </Button>
+      <Search panTo={panTo} />
       <GoogleMap
         onClick={(e) => {
           setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-          // setMarkers((prev) => [...prev, marker]);
         }}
-        mapContainerStyle={containerStyle}
-        center={myLocation}
-        zoom={10}
+        mapContainerStyle={{
+          width,
+          height,
+        }}
+        center={lat ? { lat, lng } : myLocation}
+        zoom={zoom}
         onLoad={onLoad}
-        onUnmount={onUnmount}
         options={options}
       >
         {/* Child components, such as markers, info windows, etc. */}
-        <Marker position={marker} icon="" />
+        <Marker position={marker} />
         <Marker
           position={myLocation}
           icon={{
@@ -138,5 +158,57 @@ function Map({ isOpen, onClose }) {
     <Loading />
   );
 }
+
+function Search({ panTo }) {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: { lat: () => 10.84778, lng: () => 106.78655 },
+      radius: 200 * 1000,
+    },
+  });
+
+  return (
+    <div className={cx('search')}>
+      <Combobox
+        className={cx('search-combo-box')}
+        onSelect={async (address) => {
+          setValue(address, false);
+          clearSuggestions();
+          try {
+            const results = await getGeocode({ address });
+            const { lat, lng } = await getLatLng(results[0]);
+            panTo({ lng, lat });
+          } catch (error) {
+            console.log('error!');
+          }
+        }}
+      >
+        <ComboboxInput
+          className={cx('search-input')}
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+          disabled={!ready}
+          placeholder="Nhập địa chỉ"
+        />
+        <ComboboxPopover className={cx('combo-box-popover')} hidden={false}>
+          {status === 'OK' && data.map(({ id, description }) => <ComboboxOption key={id} value={description} />)}
+        </ComboboxPopover>
+      </Combobox>
+    </div>
+  );
+}
+
+Map.propTypes = {
+  lat: propTypes.number,
+  lng: propTypes.number,
+};
 
 export default memo(Map);

@@ -28,7 +28,7 @@ const publicRoutes = [
   { path: config.routes.register, component: Register, layout: layouts.LoginLayout },
   { path: config.routes.verification, component: Verification, layout: layouts.LoginLayout },
   { path: config.routes.verificationRequest, component: VerificationRequest, layout: layouts.LoginLayout },
-  { path: config.routes.test, component: Test, layout: null },
+  { path: config.routes.test, component: Test, layout: layouts.HasSideBarLayout },
   // any more
 ];
 

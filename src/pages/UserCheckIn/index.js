@@ -1,8 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useEffect, useState } from 'react';
+import CryptoJS from 'crypto-js';
+import config from '~/config';
+import hooks from '~/hooks';
 
 function UserCheckIn() {
-  const [scannerResult, setScannerResult] = useState(null);
+  const [scannerResult, setScannerResult] = useState(undefined);
+  const [parkingLotId, setParkingLotId] = useState(undefined);
+  const [userId, setUserId] = useState(undefined);
+  const username = hooks.useLocalStorage('user', '')[0];
+  const axiosPrivate = hooks.useAxiosPrivate();
 
   useEffect(() => {
     const scanner = new Html5QrcodeScanner('reader', {
@@ -24,11 +32,50 @@ function UserCheckIn() {
     };
 
     scanner.render(success, error);
+
+    // fetch user information
+
+    const response = axiosPrivate.post(config.constants.USER_INFO_URL, JSON.stringify({ username }));
+    response
+      .then((res) => {
+        setUserId(res.data?.object?.id);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
+
+  useEffect(() => {
+    if (scannerResult) {
+      const decryptedBytes = CryptoJS.AES.decrypt(scannerResult, config.constants.SECRET_KEY);
+      const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
+
+      setParkingLotId(Number(decryptedText.replace('parkingLotId=', '')));
+    }
+  }, [scannerResult]);
+
+  useEffect(() => {
+    if (!parkingLotId || !userId) return;
+    const response = axiosPrivate.post(
+      config.constants.CHECK_IN_URL,
+      JSON.stringify({
+        userId,
+        parkingLotId,
+      }),
+    );
+    response
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+    setUserId(undefined);
+  }, [parkingLotId]);
+
+  console.log(username);
   return (
     <div>
       <h1>QR Check In Scanning</h1>
-      {scannerResult ? <div>Success: {scannerResult}</div> : <div id="reader"></div>}
+      {<div id="reader"></div>}
     </div>
   );
 }

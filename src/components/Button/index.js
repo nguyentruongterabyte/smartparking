@@ -15,6 +15,7 @@ function Button({
   small = false,
   large = false,
   danger = false,
+  success = false,
   disabled = false,
   children,
   className,
@@ -56,6 +57,7 @@ function Button({
     small,
     large,
     danger,
+    success,
     disabled,
   });
 

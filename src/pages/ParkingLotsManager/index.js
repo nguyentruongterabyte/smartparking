@@ -19,7 +19,8 @@ function ParkingLotsManager() {
   const [merchantId, setMerchantId] = useState(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAddFormOpen, setIsAddFormOpen] = useState(false);
-
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [parkingLotId, setParkingLotId] = useState(undefined);
   const axiosPrivate = hooks.useAxiosPrivate();
 
   const handleAddBtnClick = () => {
@@ -30,15 +31,49 @@ function ParkingLotsManager() {
     setIsAddFormOpen(false);
   };
 
+  const handleCloseEditForm = () => {
+    setIsEditFormOpen(false);
+  };
+
+  const handleEditBtnClick = (id) => {
+    setIsEditFormOpen(true);
+    setParkingLotId(id);
+  };
+
+  const handleDeleteBtnClick = () => {
+    setParkingLots([]);
+    const response = axiosPrivate.get(config.constants.PARKING_LOTS_URL + `?merchantId=${merchantId}`);
+    response
+      .then((res) => {
+        const parkingLots = res?.data?.map((prev) => {
+          const parkingLot = {
+            ...prev,
+            image: prev.images[0]?.data || '',
+          };
+
+          delete parkingLot.images;
+
+          return parkingLot;
+        });
+        setParkingLots(parkingLots);
+        setIsLoaded(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error('Không thể tải thông tin bãi đỗ xe!');
+      });
+  };
+
+  function showParkingLots(parkingLots) {
+    return parkingLots.map((parkingLot) => (
+      <ParkingLot onEdit={handleEditBtnClick} onDelete={handleDeleteBtnClick} key={parkingLot.id} data={parkingLot} />
+    ));
+  }
+
   useEffect(() => {
     if (!merchantId) {
       let isMounted = true;
-      const response = axiosPrivate.post(config.constants.MERCHANT_INFO_URL, JSON.stringify({ username: user }), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+      const response = axiosPrivate.post(config.constants.MERCHANT_INFO_URL, JSON.stringify({ username: user }));
       response
         .then((res) => {
           isMounted && setMerchantId(res?.data?.object?.id);
@@ -58,12 +93,7 @@ function ParkingLotsManager() {
 
   useEffect(() => {
     if (merchantId) {
-      const response = axiosPrivate.get(config.constants.PARKING_LOTS_URL + `?merchantId=${merchantId}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      });
+      const response = axiosPrivate.get(config.constants.PARKING_LOTS_URL + `?merchantId=${merchantId}`);
       response
         .then((res) => {
           const parkingLots = res?.data?.map((prev) => {
@@ -102,15 +132,12 @@ function ParkingLotsManager() {
               <FontAwesomeIcon icon={icons.faPlus} />
             </span>
           </button>
-          <Form.AddParkingLot isOpen={isAddFormOpen} onClose={handleCloseAddForm} />
+          <Form.AddParkingLot merchantId={merchantId} isOpen={isAddFormOpen} onClose={handleCloseAddForm} />
+          <Form.EditParkingLot isOpen={isEditFormOpen} onClose={handleCloseEditForm} id={parkingLotId} />
         </div>
       )}
     </>
   );
-}
-
-function showParkingLots(parkingLots) {
-  return parkingLots.map((parkingLot) => <ParkingLot key={parkingLot.id} data={parkingLot} />);
 }
 
 export default ParkingLotsManager;

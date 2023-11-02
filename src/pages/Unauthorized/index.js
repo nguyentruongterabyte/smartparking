@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Button from '~/components/Button';
 import Error from '~/components/Error';
 function Unauthorized() {
   const navigate = useNavigate();

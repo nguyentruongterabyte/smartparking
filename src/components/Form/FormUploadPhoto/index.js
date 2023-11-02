@@ -1,5 +1,3 @@
-import hooks from '~/hooks';
-
 import React, { Component } from 'react';
 import useAxiosPrivate from '~/hooks/useAxiosPrivate';
 

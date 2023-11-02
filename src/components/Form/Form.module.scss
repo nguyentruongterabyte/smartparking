@@ -37,6 +37,7 @@
   overflow-x: scroll;
   margin-right: 16px;
   margin-bottom: 12px;
+  min-width: 446px;
 }
 
 .input {
@@ -125,7 +126,8 @@ CORE STYLES
   --uiFieldPaddingLeft: var(--fieldPaddingLeft, 1rem);
   --uiFieldBorderColorActive: var(--fieldBorderColorActive, rgba(22, 22, 22, 1));
 
-  display: var(--fieldDisplay, inline-flex);
+  display: var(--fieldDisplay, flex);
+  flex-direction: column;
   position: relative;
   font-size: 1.2rem;
   width: 100%;

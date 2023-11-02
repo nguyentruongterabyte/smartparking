@@ -1,0 +1,7 @@
+.vehicle-price {
+  color: green;
+  width: 100%;
+  &:focus, &:hover {
+    background-color: #ececec;
+  }
+}

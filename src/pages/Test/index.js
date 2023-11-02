@@ -1,7 +1,5 @@
-import Map from '~/components/Map';
-
 function Test() {
-  return <Map />;
+  return;
 }
 
 export default Test;

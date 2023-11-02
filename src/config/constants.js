@@ -6,8 +6,12 @@ export const END_USER_BASE_URL = '';
 export const APP_ID = 999888;
 // Server base url
 //https://5e05-116-110-43-56.ngrok-free.app
-export const SERVER_BASE_URL = 'https://cd83-116-110-40-55.ngrok-free.app';
+export const SERVER_BASE_URL = 'http://192.168.1.27:8080';
 
+// Secret key
+export const SECRET_KEY = 'smartParking1';
+// web socket
+export const WEB_SOCKET = SERVER_BASE_URL + '/ws';
 // Google map api key
 export const GOOGLE_MAP_API_KEYS = 'AIzaSyAxy60O_V7UnrbkvaGJF1K9BIYINZL2WH4';
 // Login api url
@@ -20,6 +24,20 @@ export const REFRESH_URL = 'api/auth/refresh';
 export const REGISTER_URL = 'api/auth/register';
 // Get parking lots url
 export const PARKING_LOTS_URL = 'api/parkinglot';
+// Add parking lots url
+export const ADD_PARKING_URL = 'api/parkinglot/add';
+// edit parking lot url
+export const EDIT_PARKING_URL = 'api/parkinglot/edit';
+// delete parking lot url
+export const DELETE_PARKING_URL = 'api/parkinglot/delete';
+// upload parking image url
+export const UPLOAD_PARKING_IMG_URL = 'api/parkinglot-image/upload';
+// Tickets price url
+export const PRICE_TICKET_URL = 'api/price-ticket';
+// request parameters: id
+export const VEHICLE_TYPES_BY_ID_URL = 'api/parkinglot/vehicle-type';
+// Add tickets price url
+export const ADD_PRICE_TICKET_URL = 'api/price-ticket/add';
 // Search parking lot url
 export const SEARCHING_LOTS_URL = 'api/parkinglot/search';
 // Send email verification url
@@ -33,7 +51,11 @@ export const MERCHANT_INFO_URL = 'api/merchant/information';
 // Account menu items
 export const SEARCH_PARKING_LOTS_URL = '/api/parkinglot/search';
 // Get all vehicle types
-export const VEHICLE_TYPES_URL = '/api/vehicle-type';
+export const VEHICLE_TYPES_URL = 'api/vehicle-type';
+// Check in url
+export const CHECK_IN_URL = 'api/checkin';
+// Check in websocket subscribe url
+export const WEB_SOCKET_SUBSCRIBE_CHANNEL_URL = '/parkinglot/';
 
 // Account menu items
 export const ACCOUNT_MENU_ITEMS = [

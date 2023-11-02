@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 
 import useRefreshToken from './useRefreshToken';
 import useAuth from './useAuth';
-import config from '~/config';
 
 function useAxiosPrivate() {
   const refresh = useRefreshToken();
