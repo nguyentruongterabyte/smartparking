@@ -2,8 +2,10 @@
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useEffect, useState } from 'react';
 import CryptoJS from 'crypto-js';
+
 import config from '~/config';
 import hooks from '~/hooks';
+import { toast } from 'react-toastify';
 
 function UserCheckIn() {
   const [scannerResult, setScannerResult] = useState(undefined);
@@ -66,16 +68,18 @@ function UserCheckIn() {
     response
       .then((res) => {
         console.log(res);
+        if (res.response?.status === 302) {
+          toast.warn(res.response?.data?.message || 'Đã quá hạn nhập biển số xe. Vui lòng quét mã QR lại');
+        }
+        setUserId(undefined);
       })
       .catch((err) => console.log(err));
-    setUserId(undefined);
   }, [parkingLotId]);
 
-  console.log(username);
   return (
     <div>
       <h1>QR Check In Scanning</h1>
-      {<div id="reader"></div>}
+      <div id="reader"></div>
     </div>
   );
 }

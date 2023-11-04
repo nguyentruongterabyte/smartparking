@@ -6,7 +6,7 @@ export const END_USER_BASE_URL = '';
 export const APP_ID = 999888;
 // Server base url
 //https://5e05-116-110-43-56.ngrok-free.app
-export const SERVER_BASE_URL = 'http://192.168.1.27:8080';
+export const SERVER_BASE_URL = 'http://192.168.95.145:8080';
 
 // Secret key
 export const SECRET_KEY = 'smartParking1';
@@ -38,8 +38,6 @@ export const PRICE_TICKET_URL = 'api/price-ticket';
 export const VEHICLE_TYPES_BY_ID_URL = 'api/parkinglot/vehicle-type';
 // Add tickets price url
 export const ADD_PRICE_TICKET_URL = 'api/price-ticket/add';
-// Search parking lot url
-export const SEARCHING_LOTS_URL = 'api/parkinglot/search';
 // Send email verification url
 export const EMAIL_VERIFICATION_URL = 'api/auth/verification';
 // Get parking lot id by username url
@@ -50,12 +48,22 @@ export const USER_INFO_URL = 'api/user/information';
 export const MERCHANT_INFO_URL = 'api/merchant/information';
 // Account menu items
 export const SEARCH_PARKING_LOTS_URL = '/api/parkinglot/search';
+// Search parking lot by merchant id
+export const SEARCH_PARKING_LOTS_BY_MERCHANT_URL = 'api/parkinglot/search-by-merchant';
 // Get all vehicle types
 export const VEHICLE_TYPES_URL = 'api/vehicle-type';
 // Check in url
 export const CHECK_IN_URL = 'api/checkin';
-// Check in websocket subscribe url
+// Prepare check out url
+export const PRE_CHECK_OUT_URL = '/api/checkout/ready';
+// Check out url
+export const CHECK_OUT_URL = 'api/checkout';
+// Check in websocket subscribe url employee
 export const WEB_SOCKET_SUBSCRIBE_CHANNEL_URL = '/parkinglot/';
+// Check out websocket subscribe url user
+export const WEB_SOCKET_SUBSCRIBE_USER_CHANNEL_URL = '/parkinglot/user/';
+// API ticket url for user
+export const USER_TICKETS_URL = '/api/ticket/user';
 
 // Account menu items
 export const ACCOUNT_MENU_ITEMS = [
@@ -154,6 +162,11 @@ export const SIDEBAR_USER_MENU = [
     name: 'Check in',
     icon: icons.faQrcode,
   },
+  {
+    path: routes.userCheckOut,
+    name: 'Check out',
+    icon: icons.faRightFromBracket,
+  },
 ];
 
 export const SIDEBAR_EMPLOYEE_MENU = [
@@ -163,14 +176,14 @@ export const SIDEBAR_EMPLOYEE_MENU = [
     icon: icons.faHome,
   },
   {
-    path: routes.parkingLots,
-    name: 'Bãi đỗ xe',
-    icon: icons.faParking,
-  },
-  {
     path: routes.employeeCheckIn,
     name: 'Check In',
     icon: icons.faQrcode,
+  },
+  {
+    path: routes.employeeCheckOut,
+    name: 'Check Out',
+    icon: icons.faRightFromBracket,
   },
 ];
 

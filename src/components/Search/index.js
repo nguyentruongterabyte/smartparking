@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
@@ -18,21 +19,36 @@ export function SearchParkingLot({ className }) {
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [vehicleTypes, setVehicleTypes] = useState([]);
   const axiosPrivate = hooks.useAxiosPrivate();
 
-  const searchParkingLot = async (keyword) => {
-    const response = await axiosPrivate.get(config.constants.SEARCHING_LOTS_URL + `?keyword=${keyword}`, {
-      headers: {
-        'Content-Type': 'application/json',
+  const searchParkingLot = async (keyword, id) => {
+    const response = await axiosPrivate.get(
+      config.constants.SEARCHING_LOTS_URL + `?keyword=${keyword}&vehicleTypeId=2`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    });
+    );
     return response;
   };
 
   const debounced = hooks.useDebounce(searchValue, 700);
 
   const inputRef = useRef();
+
+  useEffect(() => {
+    // fetch vehicle types
+    const response = axiosPrivate.get(config.constants.VEHICLE_TYPES_URL);
+    response
+      .then((res) => {
+        const vs = res?.data?.object.map((v) => ({ label: v.typeName, value: v.id }));
+        setVehicleTypes(vs);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
     if (!debounced) {
@@ -132,7 +148,7 @@ export function SearchParkingLotByMerchantId({ className }) {
 
   const searchParkingLotByMerchantId = async (keyword, id) => {
     const response = await axiosPrivate.post(
-      config.constants.SEARCH_PARKING_LOTS_URL,
+      config.constants.SEARCH_PARKING_LOTS_BY_MERCHANT_URL,
       JSON.stringify({ id, keyword }),
       {
         headers: {

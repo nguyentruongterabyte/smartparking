@@ -84,7 +84,6 @@ function EmployeeCheckIn() {
     }
   }, [payload]);
 
-  console.log(userId);
   return (
     <div
       style={{

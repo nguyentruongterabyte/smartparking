@@ -13,10 +13,12 @@ import VerificationRequest from '~/pages/VerificationRequest';
 import Profile from '~/pages/Profile';
 import Test from '~/pages/Test';
 import UserCheckIn from '~/pages/UserCheckIn';
+import UserCheckOut from '~/pages/UserCheckOut';
 import EmployeeCheckIn from '~/pages/EmployeeCheckIn';
+import EmployeeCheckOut from '~/pages/EmployeeCheckOut';
 import ParkingLotsManager from '~/pages/ParkingLotsManager';
-import { SearchParkingLotByMerchantId } from '~/components/Search';
-// import configOverrides from 'config-overrides';
+import ParkingLots from '~/pages/ParkingLots';
+import { SearchParkingLotByMerchantId, SearchParkingLot } from '~/components/Search';
 
 const ROLES = config.constants.ROLES;
 
@@ -77,9 +79,21 @@ const privateRoutes = [
     layout: layouts.HasSideBarLayout,
   },
   {
+    path: config.routes.userCheckOut,
+    component: UserCheckOut,
+    allowedRoles: [ROLES.user],
+    layout: layouts.HasSideBarLayout,
+  },
+  {
     path: config.routes.employeeCheckIn,
     component: EmployeeCheckIn,
-    allowedRoles: [ROLES.employee, ROLES.merchant],
+    allowedRoles: [ROLES.employee],
+    layout: layouts.HasSideBarLayout,
+  },
+  {
+    path: config.routes.employeeCheckOut,
+    component: EmployeeCheckOut,
+    allowedRoles: [ROLES.employee],
     layout: layouts.HasSideBarLayout,
   },
   {
@@ -88,6 +102,13 @@ const privateRoutes = [
     allowedRoles: [ROLES.merchant],
     layout: layouts.HasSideBarLayout,
     headerSearch: SearchParkingLotByMerchantId,
+  },
+  {
+    path: config.routes.parkingLots,
+    component: ParkingLots,
+    allowedRoles: [ROLES.user],
+    layout: layouts.HasSideBarLayout,
+    headerSearch: SearchParkingLot,
   },
 ];
 export { publicRoutes, privateRoutes };

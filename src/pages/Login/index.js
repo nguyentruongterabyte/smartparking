@@ -64,10 +64,10 @@ function Login() {
       setPwd('');
       switch (role) {
         case ROLES.admin:
-          navigateAfterLogin(config.routes.test, navigate);
+          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
           break;
         case ROLES.merchant:
-          navigateAfterLogin(config.routes.merchant, navigate);
+          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
           break;
         case ROLES.employee:
           navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);

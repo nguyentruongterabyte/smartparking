@@ -12,7 +12,9 @@ const routes = {
   parkingLots: '/parking-lots',
   profile: '/profile',
   userCheckIn: '/user-check-in',
+  userCheckOut: '/user-check-out',
   employeeCheckIn: '/employee-check-in',
+  employeeCheckOut: '/employee-check-out',
   test: '/test',
   parkingLotsManager: '/parking-lots/manager',
 };
