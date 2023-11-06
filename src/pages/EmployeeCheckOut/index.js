@@ -42,7 +42,7 @@ function EmployeeCheckOut() {
     if (scannerResult) {
       const decryptedBytes = CryptoJS.AES.decrypt(scannerResult, config.constants.SECRET_KEY);
       const decryptedText = decryptedBytes.toString(CryptoJS.enc.Utf8);
-      console.log(decryptedText);
+      // console.log(decryptedText);
       SetId(JSON.parse(decryptedText).id);
     }
   }, [scannerResult]);

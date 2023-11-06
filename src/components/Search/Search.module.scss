@@ -8,6 +8,7 @@
   height: var(--search-height);
   padding-left: 16px;
   display: flex;
+  // flex-direction: column;
   background-color: var(--white);
   border-radius: var(--search-border-radius);
 
@@ -116,3 +117,14 @@
 }
 
 
+// parking lot status: close or open
+.status {
+  font-size: 1.2rem;
+  font-weight: 400;
+  &.close {
+    color: red;
+  }
+  &.open {
+    color: green;
+  }
+}

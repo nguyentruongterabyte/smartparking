@@ -153,6 +153,11 @@ html *::-webkit-scrollbar-track {
   display: inline-block;
 }
 
+// Multi selection
+.dropdown-content {
+  z-index: 10000 !important;
+}
+
 // Fonts embedded
 @font-face {
   font-family: TikTokFont;
@@ -189,7 +194,7 @@ html *::-webkit-scrollbar-track {
   }
 
   .search-on-mobile-tablet {
-    width: 100%;
+    width: 100% !important;
   }
 
 }

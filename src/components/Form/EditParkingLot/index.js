@@ -15,7 +15,6 @@ import Map from '~/components/Map';
 import hooks from '~/hooks';
 import config from '~/config';
 import icons from '~/assets/icons';
-import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 const cx2 = classNames.bind(styles2);
@@ -81,13 +80,17 @@ function EditParkingLot({ id, isOpen, onClose }) {
   }, []);
 
   useEffect(() => {
-    vehicleIds.forEach((vehicleId) => setVehiclePrices((prev) => ({ ...prev, [vehicleId.value]: 0 })));
+    vehicleIds.forEach((vehicleId) =>
+      setVehiclePrices((prev) => ({ ...prev, [vehicleId.value]: vehiclePrices[vehicleId.value] })),
+    );
   }, [vehicleIds]);
 
   useEffect(() => {
     if (id) {
       // fetch parking lot information
       const response = axiosPrivate.post(config.constants.PARKING_LOTS_URL, JSON.stringify({ id }));
+
+      // console.log(response);
       response
         .then((res) => {
           const parkingLot = res.data?.object;
@@ -228,8 +231,6 @@ function EditParkingLot({ id, isOpen, onClose }) {
     };
 
     reader.readAsDataURL(e.target.files[0]);
-
-    console.log(fileBase64.data);
   };
 
   // handle map button click
@@ -240,21 +241,21 @@ function EditParkingLot({ id, isOpen, onClose }) {
   };
 
   // handleSubmit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('parkingLotName = ', parkingLotName);
-    console.log('numberSlot = ', numberSlot);
-    console.log('timeOpen = ', timeOpen);
-    console.log('timeClose = ', timeClose);
-    console.log('ward = ', ward);
-    console.log('street = ', street);
-    console.log('district = ', district);
-    console.log('city = ', city);
-    console.log('number = ', number);
-    console.log('lat = ', lat);
-    console.log('lng = ', lng);
-    console.log('vehiclePrices = ', vehiclePrices);
-    console.log(vehiclePrices);
+    // console.log('parkingLotName = ', parkingLotName);
+    // console.log('numberSlot = ', numberSlot);
+    // console.log('timeOpen = ', timeOpen);
+    // console.log('timeClose = ', timeClose);
+    // console.log('ward = ', ward);
+    // console.log('street = ', street);
+    // console.log('district = ', district);
+    // console.log('city = ', city);
+    // console.log('number = ', number);
+    // console.log('lat = ', lat);
+    // console.log('lng = ', lng);
+    // console.log('vehiclePrices = ', vehiclePrices);
+    // console.log(vehiclePrices);
     if (!parkingLotName) {
       setParkingLotNameFocus(true);
       return;
@@ -298,11 +299,44 @@ function EditParkingLot({ id, isOpen, onClose }) {
       }),
     );
 
+    // change ticket price
+    for (let key in vehiclePrices) {
+      if (vehiclePrices.hasOwnProperty(key) && !isNaN(key)) {
+        axiosPrivate.post(
+          config.constants.ADD_PRICE_TICKET_URL,
+          JSON.stringify({
+            parkingLotId: id,
+            vehicleTypeId: Number(key),
+            price: vehiclePrices[key],
+          }),
+        );
+      }
+    }
+
+    if (Boolean(Object.keys(fileBase64).length)) {
+      const response = axiosPrivate.post(
+        config.constants.UPLOAD_PARKING_IMG_URL,
+        JSON.stringify({
+          parkingLotId: id,
+          file: fileBase64.data.replace('data:image/png;base64,', '').replace('data:image/jpeg;base64,', ''),
+        }),
+      );
+      response
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          toast.error('Lỗi upload ảnh!');
+        });
+    }
+
     response
       .then(() => {
         toast.success('Cập nhật bãi đỗ xe thành công!');
+        setVehiclePrices({ default: 0 });
       })
       .catch(() => toast.error('Đã có lỗi xảy ra!'));
+    // window.location.reload();
   };
 
   // handle city change
@@ -509,7 +543,6 @@ function EditParkingLot({ id, isOpen, onClose }) {
             <br />
             {/* file image */}
             {/* <img alt="nhà xe" src={String(fileBase64.data)} /> */}
-            <Image src={'data:image/png;base64,' + fileBase64?.data.toString()} />
             <br />
             <input id="file" type="file" onChange={handleFileChange} />
             {/* Vehicle types options */}

@@ -59,7 +59,7 @@ function ParkingLotsManager() {
         setIsLoaded(true);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         toast.error('Không thể tải thông tin bãi đỗ xe!');
       });
   };
@@ -99,7 +99,7 @@ function ParkingLotsManager() {
           const parkingLots = res?.data?.map((prev) => {
             const parkingLot = {
               ...prev,
-              image: prev.images[0]?.data || '',
+              image: (prev.images.length > 0 && prev.images[prev.images.length - 1]?.data) || '',
             };
 
             delete parkingLot.images;

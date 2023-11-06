@@ -17,6 +17,7 @@ const routes = {
   employeeCheckOut: '/employee-check-out',
   test: '/test',
   parkingLotsManager: '/parking-lots/manager',
+  parkingLotCard: '/parking-lot/card',
 };
 
 export default routes;

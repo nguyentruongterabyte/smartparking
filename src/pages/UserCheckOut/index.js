@@ -16,6 +16,7 @@ import config from '~/config';
 const tabs = {
   ticketList: 'ticket-list',
   qrCode: 'qr-code',
+  history: 'history',
 };
 
 var stompClient = null;
@@ -24,21 +25,12 @@ function UserCheckOut() {
   const username = hooks.useLocalStorage('user', '')[0];
   const [userId, setUserId] = useState(undefined);
   const [tickets, setTickets] = useState([]);
+  const [historyTickets, setHistoryTickets] = useState([]);
   const [pendingTicket, setPendingTicket] = useState({ id: undefined });
   const [ticketIdEncode, setTicketIdEncode] = useState('');
   const [payload, setPayload] = useState(undefined);
 
   useEffect(() => {
-    // fetch tickets list from username
-    const response = axiosPrivate.post(config.constants.USER_TICKETS_URL, JSON.stringify({ username }));
-    response
-      .then((res) => {
-        console.log(res);
-        setTickets(res.data?.object);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     // fetch user information
 
     const response2 = axiosPrivate.post(config.constants.USER_INFO_URL, JSON.stringify({ username }));
@@ -51,12 +43,56 @@ function UserCheckOut() {
       });
   }, []);
 
+  const dateTimeInfo = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1
+    const day = date.getUTCDate();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+
+    return {
+      year,
+      month,
+      day,
+      hours,
+      minutes,
+    };
+  };
+
   useEffect(() => {
     if (userId) {
+      // fetch tickets list from userId
+      const response = axiosPrivate.post(config.constants.USER_TICKETS_URL, JSON.stringify({ id: userId }));
+      response
+        .then((res) => {
+          const results = res.data?.object?.map((ticket) => ({
+            ...ticket,
+            checkInTime: dateTimeInfo(ticket.checkInTime),
+          }));
+          setTickets(results);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      const response2 = axiosPrivate.post(config.constants.HISTORY_TICKETS_URL, JSON.stringify({ id: userId }));
+      response2
+        .then((res) => {
+          const results = res.data?.object?.map((ticket) => ({
+            ...ticket,
+            checkInTime: dateTimeInfo(ticket.checkInTime),
+            checkOutTime: dateTimeInfo(ticket.checkOutTime),
+          }));
+          setHistoryTickets(results);
+        })
+        .catch((err) => console.log(err));
       registerUser();
+
+      // fetch history list from userId
     }
   }, [userId]);
 
+  // console.log(historyTickets);
   useEffect(() => {
     if (payload) {
       toast(JSON.parse(payload.body)?.message);
@@ -112,8 +148,17 @@ function UserCheckOut() {
         <td>{ticket.licensePlate}</td>
         <td>{ticket.parkingLotName}</td>
         <td>{ticket.price}</td>
-        <td>{ticket.checkInTime}</td>
+        <td>{`${ticket.checkInTime.hours}:${ticket.checkInTime.minutes} ${ticket.checkInTime.day}/${ticket.checkInTime.month}/${ticket.checkInTime.year}`}</td>
         <td>{ticket.vehicleTypeName}</td>
+      </tr>
+    ));
+  const renderHistoryTickets = () =>
+    historyTickets.map((ticket) => (
+      <tr key={ticket.id}>
+        <td>{ticket.parkingLotName}</td>
+        <td>{ticket.licensePlate}</td>
+        <td>{`${ticket.checkInTime.hours}:${ticket.checkInTime.minutes} ${ticket.checkInTime.day}/${ticket.checkInTime.month}/${ticket.checkInTime.year}`}</td>
+        <td>{`${ticket.checkOutTime.hours}:${ticket.checkOutTime.minutes} ${ticket.checkOutTime.day}/${ticket.checkOutTime.month}/${ticket.checkOutTime.year}`}</td>
       </tr>
     ));
 
@@ -150,6 +195,19 @@ function UserCheckOut() {
         ) : (
           'Bạn chưa chọn vé check out'
         )}
+      </Tab>
+      <Tab title="Lịch sử vé" eventKey={tabs.history}>
+        <Table responsive>
+          <thead>
+            <tr>
+              <th>Tên nhà xe</th>
+              <th>Biển số</th>
+              <th>Thời gi an vào</th>
+              <th>Thời gian ra</th>
+            </tr>
+          </thead>
+          <tbody>{renderHistoryTickets()}</tbody>
+        </Table>
       </Tab>
     </Tabs>
   );

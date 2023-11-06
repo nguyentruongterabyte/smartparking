@@ -43,10 +43,10 @@ function CheckIn({ isOpen, onClose, userId, parkingLotId }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('userId = ', userId);
-    console.log('parkingLotId = ', parkingLotId);
-    console.log('licensePlate = ', license);
-    console.log('vehicleId = ', vehicleId);
+    // console.log('userId = ', userId);
+    // console.log('parkingLotId = ', parkingLotId);
+    // console.log('licensePlate = ', license);
+    // console.log('vehicleId = ', vehicleId);
 
     const response = axiosPrivate.post(
       '/api/checkin/submit-license-plate',
@@ -63,7 +63,7 @@ function CheckIn({ isOpen, onClose, userId, parkingLotId }) {
     );
     response
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         toast.success(res.data?.message);
         onClose();
       })

@@ -18,6 +18,8 @@ import EmployeeCheckIn from '~/pages/EmployeeCheckIn';
 import EmployeeCheckOut from '~/pages/EmployeeCheckOut';
 import ParkingLotsManager from '~/pages/ParkingLotsManager';
 import ParkingLots from '~/pages/ParkingLots';
+import ParkingLotCard from '~/pages/ParkingLotCard';
+
 import { SearchParkingLotByMerchantId, SearchParkingLot } from '~/components/Search';
 
 const ROLES = config.constants.ROLES;
@@ -107,6 +109,13 @@ const privateRoutes = [
     path: config.routes.parkingLots,
     component: ParkingLots,
     allowedRoles: [ROLES.user],
+    layout: layouts.HasSideBarLayout,
+    headerSearch: SearchParkingLot,
+  },
+  {
+    path: config.routes.parkingLotCard,
+    component: ParkingLotCard,
+    allowedRoles: [ROLES.user, ROLES.merchant],
     layout: layouts.HasSideBarLayout,
     headerSearch: SearchParkingLot,
   },

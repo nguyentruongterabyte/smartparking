@@ -107,9 +107,7 @@ function AddParkingLot({ merchantId, isOpen, onClose }) {
           }),
         );
         response
-          .then((res) => {
-            console.log(res);
-          })
+          .then((res) => {})
           .catch((e) => {
             toast.error('Lỗi upload ảnh!');
           });
@@ -233,20 +231,20 @@ function AddParkingLot({ merchantId, isOpen, onClose }) {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('parkingLotName = ' + parkingLotName);
-    console.log('numberSlot = ' + numberSlot);
-    console.log('timeOpen = ' + timeOpen);
-    console.log('timeClose = ' + timeClose);
-    console.log('ward = ' + ward);
-    console.log('street = ' + street);
-    console.log('district = ' + district);
-    console.log('city = ' + city);
-    console.log('number = ' + number);
-    console.log('lat = ' + lat);
-    console.log('lng = ' + lng);
-    console.log('vehiclePrices = ', vehiclePrices);
-    console.log('merchantId = ' + merchantId);
-    console.log(vehiclePrices);
+    // console.log('parkingLotName = ' + parkingLotName);
+    // console.log('numberSlot = ' + numberSlot);
+    // console.log('timeOpen = ' + timeOpen);
+    // console.log('timeClose = ' + timeClose);
+    // console.log('ward = ' + ward);
+    // console.log('street = ' + street);
+    // console.log('district = ' + district);
+    // console.log('city = ' + city);
+    // console.log('number = ' + number);
+    // console.log('lat = ' + lat);
+    // console.log('lng = ' + lng);
+    // console.log('vehiclePrices = ', vehiclePrices);
+    // console.log('merchantId = ' + merchantId);
+    // console.log(vehiclePrices);
 
     if (!parkingLotName) {
       setParkingLotNameFocus(true);
@@ -293,7 +291,7 @@ function AddParkingLot({ merchantId, isOpen, onClose }) {
 
     response
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
         setParkingLotId(res.data?.object);
         toast.success('Thêm bãi đỗ xe thành công!');
@@ -313,7 +311,7 @@ function AddParkingLot({ merchantId, isOpen, onClose }) {
         toast.error('Đã có lỗi xảy ra!');
         setErrMsg(err.message);
       });
-    console.log(response);
+    // console.log(response);
   };
 
   return (

@@ -21,9 +21,11 @@ import {
   faSpinner,
   faPlus,
   faLocationCrosshairs,
+  faCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icons = {
+  faCircle,
   faChevronLeft,
   faEarthAsia,
   faCircleQuestion,

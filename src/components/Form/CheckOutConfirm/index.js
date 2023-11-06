@@ -24,7 +24,7 @@ function CheckOutConfirm({ data, isOpen, onClose }) {
 
     response
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         toast.success('Check out thành công!');
         onClose();
       })

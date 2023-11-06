@@ -67,13 +67,13 @@ function Login() {
           navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
           break;
         case ROLES.merchant:
-          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
+          navigateAfterLogin(config.routes.merchant, navigate);
           break;
         case ROLES.employee:
-          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
+          navigateAfterLogin(config.routes.employeeCheckIn, navigate);
           break;
         case ROLES.user:
-          navigateAfterLogin(config.routes.homeHasLoggedIn, navigate);
+          navigateAfterLogin(config.routes.userCheckOut, navigate);
           break;
         default:
           throw new Error('No role detected');

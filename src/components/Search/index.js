@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames/bind';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MultiSelect } from 'react-multi-select-component';
 
 import hooks from '~/hooks';
 import styles from './Search.module.scss';
@@ -21,16 +22,13 @@ export function SearchParkingLot({ className }) {
   const [loading, setLoading] = useState(false);
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const axiosPrivate = hooks.useAxiosPrivate();
+  const [vehicleIds, setVehicleIds] = useState([]);
+  const currentDate = new Date();
 
-  const searchParkingLot = async (keyword, id) => {
-    const response = await axiosPrivate.get(
-      config.constants.SEARCHING_LOTS_URL + `?keyword=${keyword}&vehicleTypeId=2`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-      },
+  const searchParkingLot = async (keyword, vehicleTypeId) => {
+    const response = await axiosPrivate.post(
+      config.constants.SEARCH_PARKING_LOTS_URL,
+      JSON.stringify({ keyword, vehicleTypeId }),
     );
     return response;
   };
@@ -59,14 +57,53 @@ export function SearchParkingLot({ className }) {
 
     const fetchApi = async () => {
       setLoading(true);
+      // Get all parking lot with all vehicles if user not chosen
+      if (vehicleIds.length === 0) {
+        const promises = await vehicleTypes.map((vehicleId) => searchParkingLot(debounced, vehicleId.value));
 
-      const response = await searchParkingLot(debounced);
-      setSearchResult(response?.data?.object || []);
+        Promise.all(promises).then((results) => {
+          let combinedResults = [];
+          for (let i = 0; i < results.length; i++) {
+            const result = results[i]?.data?.object || [];
+            combinedResults = combinedResults.concat(result);
+          }
+
+          combinedResults = combinedResults.filter(
+            (value, index, self) => index === self.findIndex((t) => t.id === value.id),
+          );
+          setSearchResult(combinedResults);
+        });
+      } else {
+        const promises = await vehicleIds.map((vehicleId) => searchParkingLot(debounced, vehicleId.value));
+
+        Promise.all(promises).then((results) => {
+          let combinedResults = results[0]?.data?.object || [];
+
+          for (let i = 0; i < results.length; i++) {
+            const result = results[i]?.data?.object || [];
+            combinedResults = combinedResults.filter((t) => result.some((e) => e.id === t.id));
+          }
+          combinedResults = combinedResults.filter(
+            (value, index, self) => index === self.findIndex((t) => t.id === value.id),
+          );
+
+          setSearchResult(combinedResults);
+        });
+      }
+
       setLoading(false);
     };
     fetchApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounced]);
+
+  useEffect(() => {
+    // console.log(searchResult);
+  }, [searchResult]);
+
+  useEffect(() => {
+    setSearchResult([]);
+  }, [vehicleIds]);
 
   const handleClear = () => {
     setSearchValue('');
@@ -90,36 +127,50 @@ export function SearchParkingLot({ className }) {
       <HeadlessTippy
         visible={showResult && searchResult.length > 0}
         interactive
+        placement="bottom-start"
         render={(attrs) => (
           <div className={cx('search-result')} tabIndex="-1" {...attrs}>
             <PopperWrapper>
               <h4 className={cx('search-title')}>Bãi đỗ xe</h4>
               {searchResult.map((result) => (
-                <ParkingLotResult key={result.id} data={result} />
+                <ParkingLotResult
+                  key={result.id}
+                  totalCurrentTime={currentDate.getHours() * 60 + currentDate.getMinutes()}
+                  data={result}
+                />
               ))}
             </PopperWrapper>
           </div>
         )}
         onClickOutside={handleHideResult}
       >
-        <div className={cx('search')}>
-          <input
-            ref={inputRef}
-            value={searchValue}
-            placeholder="Search"
-            spellCheck={false}
-            onChange={handleChange}
-            onFocus={() => setShowResult(true)}
-          />
-          {!!searchValue && !loading && (
-            <button className={cx('clear')} onClick={handleClear}>
-              <FontAwesomeIcon icon={icons.faCircleXmark} />
+        <div style={{ marginTop: '38px' }}>
+          <div className={cx('search-on-mobile-tablet', 'search')}>
+            <input
+              ref={inputRef}
+              value={searchValue}
+              placeholder="Search"
+              spellCheck={false}
+              onChange={handleChange}
+              onFocus={() => setShowResult(true)}
+            />
+            {!!searchValue && !loading && (
+              <button className={cx('clear')} onClick={handleClear}>
+                <FontAwesomeIcon icon={icons.faCircleXmark} />
+              </button>
+            )}
+            {loading && <FontAwesomeIcon className={cx('loading')} icon={icons.faSpinner} />}
+            <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
+              <SearchIcon />
             </button>
-          )}
-          {loading && <FontAwesomeIcon className={cx('loading')} icon={icons.faSpinner} />}
-          <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
-            <SearchIcon />
-          </button>
+          </div>
+          <MultiSelect
+            hasSelectAll={false}
+            disableSearch
+            options={vehicleTypes}
+            value={vehicleIds}
+            onChange={setVehicleIds}
+          />
         </div>
       </HeadlessTippy>
     </div>
@@ -222,6 +273,7 @@ export function SearchParkingLotByMerchantId({ className }) {
       <HeadlessTippy
         visible={showResult && searchResult.length > 0}
         interactive
+        placement="bottom-start"
         render={(attrs) => (
           <div className={cx('search-result')} tabIndex="-1" {...attrs}>
             <PopperWrapper>

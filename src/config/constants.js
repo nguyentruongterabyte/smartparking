@@ -6,7 +6,8 @@ export const END_USER_BASE_URL = '';
 export const APP_ID = 999888;
 // Server base url
 //https://5e05-116-110-43-56.ngrok-free.app
-export const SERVER_BASE_URL = 'http://192.168.95.145:8080';
+export const SERVER_BASE_URL = 'http://192.168.1.27:8080';
+// export const SERVER_BASE_URL = 'http://192.168.95.145:8080';
 
 // Secret key
 export const SECRET_KEY = 'smartParking1';
@@ -63,7 +64,11 @@ export const WEB_SOCKET_SUBSCRIBE_CHANNEL_URL = '/parkinglot/';
 // Check out websocket subscribe url user
 export const WEB_SOCKET_SUBSCRIBE_USER_CHANNEL_URL = '/parkinglot/user/';
 // API ticket url for user
-export const USER_TICKETS_URL = '/api/ticket/user';
+export const USER_TICKETS_URL = '/api/ticket/user/unpaid';
+// history ticket url
+export const HISTORY_TICKETS_URL = '/api/ticket/user/history';
+// report year revenue  url
+export const YEAR_REVENUE_MERCHANT_URL = '/api/merchant/report';
 
 // Account menu items
 export const ACCOUNT_MENU_ITEMS = [
